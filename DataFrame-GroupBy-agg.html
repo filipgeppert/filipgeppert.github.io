@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
+
+
+
+
+    <link rel="shortcut icon" href="theme/img/icon.ico" type="image/x-icon">
+    <link rel="icon" href="theme/img/icon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-138257111-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="Filip Geppert" />
+<meta name="description" content="In this post I show how .agg() is used, especially in combination with .groupby()." />
+<meta name="keywords" content="Python, Data, Pandas">
+
+<meta property="og:site_name" content="Filip Geppert - python & data developer"/>
+<meta property="og:title" content="GroupBy on steroids, unleash GroupBy&#39;s full potential with the use of .agg()"/>
+<meta property="og:description" content="In this post I show how .agg() is used, especially in combination with .groupby()."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="/DataFrame-GroupBy-agg.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-04-15 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="/author/filip-geppert.html">
+<meta property="article:section" content="Data Science"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Data"/>
+<meta property="article:tag" content="Pandas"/>
+<meta property="og:image" content="">
+
+  <title>Filip Geppert - python & data developer &ndash; GroupBy on steroids, unleash GroupBy&#39;s full potential with the use of .agg()</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="">
+        <img src="/theme/img/profile.png" alt="" title="">
+      </a>
+      <h1><a href=""></a></h1>
+
+<h3>Python & Data developer</h3><p>My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision.</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">cv</a></li>
+          <li><a href="https://buildondata.com" target="_blank">Want to hire python specialists?</a></li>
+          <li><a href="https://www.amazon.com/dp/B07P6Y9WQT" target="_blank">Try my e-Book on data science!</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+          <li>
+            <a  class="sc-twitter" href="https://twitter.com/filipgepper" target="_blank">
+            <i class="fab fa-twitter">
+            </i>
+          </a></li>
+          <li>
+            <a  class="sc-github" href="https://github.com/filipgeppert" target="_blank">
+            <i class="fab fa-github">
+            </i>
+          </a></li>
+          <li>
+            <a  class="sc-linkedin" href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">
+            <i class="fab fa-linkedin">
+            </i>
+          </a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="/index.html">Home</a>
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+
+
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="DataFrame-GroupBy-agg">GroupBy on steroids, unleash GroupBy's full potential with the use of .agg()</h1>
+    <p>
+      Posted on Mon 15 April 2019 in <a href="/category/data-science.html">Data Science</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <p>We all use <code>.groupby</code> and it saves tons of our time and effort. But do you know how one can:</p>
+<ul>
+<li>use <code>.groupby()</code> and apply more than one aggregation function on the same column? </li>
+<li>apply different aggregation functions over different columns in the same line of code?</li>
+<li>use custom function as an aggregator?</li>
+</ul>
+<p>That's when <code>.agg()</code> comes into play! Let's see how you can use it in your code.</p>
+<hr>
+<h2>Our input dataset - AirBnB prices in Barcelona</h2>
+<p>We will use the dataset provided by <a href="http://insideairbnb.com">Inside Airbnb</a>, describing all apartments that were listed on
+AirBnB in Barcelona in 2018. Dataset contains 4 columns:</p>
+<div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;listings.csv&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span>+---+-------------------------------------------------+---------------------+-----------------+---------------------+
+|   |                      name                       | neighbourhood_group | price_per_night | annual_availability |
++---+-------------------------------------------------+---------------------+-----------------+---------------------+
+| 0 | Flat with Sunny Terrace                         | Sant Martí          |             130 |                  23 |
+| 1 | Huge flat for 8 people close to Sagrada Familia | Eixample            |              60 |                  61 |
+| 2 | Nice and sunny duble room                       | Sant Martí          |              33 |                 300 |
+| 3 | NICE ROOM AVAILABLE IN THE HEART OF GRACIA      | Gràcia              |              31 |                  36 |
+| 4 | Room for 2, Sagrada Famili                      | Horta-Guinardó      |              42 |                 190 |
++---+-------------------------------------------------+---------------------+-----------------+---------------------+
+</pre></div>
+
+
+<p>In <code>name</code> column there are names of all listings from AirBnB in Barcelona. <code>neighbourhood_group</code> describes where a particular listings is located.
+<code>price_per_night</code> tells how much does a rental cost and <code>annual_availability</code> specifies how many days per year a particular listing was available.</p>
+<p><code>.agg()</code> can help us quickly synthesize this data especially if we need to write more complex aggregations on DataFrame.</p>
+<hr>
+<h2>Use of <code>.agg()</code></h2>
+<p><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.agg.html"><code>.agg()</code></a>
+is an alias for aggregate. Usually it is used in combination with <code>.groupby()</code> when we need more complex grouping to be applied. 
+It allows you to specify an exact aggregation function (it can be more than one) that should be used to calculate
+results on a particular axis. </p>
+<p>Enough talk, let's see an example:</p>
+<div class="highlight"><pre><span></span><span class="n">df_mean_prices</span> <span class="o">=</span> <span class="p">(</span> 
+            <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;neighbourhood_group&#39;</span><span class="p">])</span>
+              <span class="c1"># Pass a dictionary with the structure: {column_name: [operation]}</span>
+              <span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;price_per_night&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]})</span>
+     <span class="p">)</span>
+
+<span class="n">df_mean_prices</span>
+</pre></div>
+
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span>                        price_per_night  
+ --------------------- ----------------- 
+                              mean       
+  neighbourhood_group                    
+  Ciutat Vella                70.306712  
+  Eixample                   142.417469  
+  Gràcia                      89.263447  
+  Horta-Guinardó              76.709565  
+  Les Corts                  120.997409  
+  Nou Barris                  35.365957  
+  Sant Andreu                 60.475610  
+  Sant Martí                  94.208556  
+  Sants-Montjuïc              77.347344  
+  Sarrià-Sant Gervasi        107.404908  
+</pre></div>
+
+
+<p>Notice that thanks to the dictionary that we passed to <code>.agg()</code> we can not only control which columns are interesting
+to us, but also what is the aggregation function that we want to apply. 
+As a result we got a summary with mean prices per night in Barcelona for each separate district. </p>
+<p>Right now, we would get the same result by using <code>df.groupby(by=['neighbourhood_group']).price_per_night.mean()</code>.
+But <code>.agg()</code> gives use more flexibility.</p>
+<hr>
+<h2><code>.agg()</code> - different operations on columns</h2>
+<p>Let's build on the previous example and see why we should care about <code>.agg()</code></p>
+<div class="highlight"><pre><span></span><span class="n">df_prices</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;neighbourhood_group&#39;</span><span class="p">])</span>
+              <span class="c1"># Use different aggregation function for each column</span>
+              <span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;price_per_night&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;annual_availability&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">]})</span>
+     <span class="p">)</span>
+
+<span class="n">df_prices</span>
+</pre></div>
+
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span>                        price_per_night                               annual_availability
+ --------------------- ----------------- --------------------- ------ ------------ ------ 
+                        mean              min                   max    mean        count  
+  neighbourhood_group                                                                     
+  Ciutat Vella          70.306712         8                     2000   183.585497   4082  
+  Eixample              142.417469        8                     6000   203.462267   6228  
+  Gràcia                89.263447         7                     5000   189.768949   1636  
+  Horta-Guinardó        76.709565         9                     1800   184.514783    575  
+  Les Corts             120.997409        9                     7777   182.072539    386  
+  Nou Barris            35.365957         11                    175    191.540426    235  
+  Sant Andreu           60.475610         11                    2000   192.426829    328  
+  Sant Martí            94.208556         8                     3000   193.895965   2057  
+  Sants-Montjuïc        77.347344         8                     8000   185.933025   2165  
+  Sarrià-Sant Gervasi   107.404908        9                     2000   213.748466    652  
+</pre></div>
+
+
+<p>This time dictionary that we passed to <code>.agg()</code> contains list of functions that we selected to apply on a particular
+column groups. Very powerful when you want to quickly synthesize dataset using several aggregation functions. </p>
+<p>But this is not the end... </p>
+<hr>
+<h2><code>.agg()</code> - use of custom aggregation function</h2>
+<p>I saved the best part for the end, so I hope that your ready for it. Aggregation function doesn't have to be pre-defined.
+You can create your own one as long as it returns a single value!
+In our dataset, we have <code>names</code> column that contains all listing names. Let's say that we would like to check how many times
+word "sunny" and "friendly" was mentioned in the listing's name.</p>
+<p>We start from defining out aggregation functions:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">count_sunny_in_description</span><span class="p">(</span><span class="n">titles</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">title</span> <span class="ow">in</span> <span class="n">titles</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;sunny&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">title</span><span class="p">):</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">count</span>
+
+<span class="k">def</span> <span class="nf">count_friendly_in_description</span><span class="p">(</span><span class="n">titles</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">title</span> <span class="ow">in</span> <span class="n">titles</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;friendly&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">title</span><span class="p">):</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">count</span>
+</pre></div>
+
+
+<p>Pretty straightforward, we return <code>count</code> which is an integer stating how many times a particular word appeared in the name.</p>
+<p>Now, having defined our aggregation functions, we can use these in the same manner as in the previous example:</p>
+<div class="highlight"><pre><span></span><span class="n">df_sunny_rainy</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;neighbourhood_group&#39;</span><span class="p">])</span>
+              <span class="c1"># Use custom aggregation function for each column</span>
+              <span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">count_sunny_in_description</span><span class="p">,</span> <span class="n">count_friendly_in_description</span><span class="p">]})</span>
+     <span class="p">)</span>
+
+<span class="n">df_sunny_rainy</span>
+</pre></div>
+
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span>                              name                                
+ ---------------------------- ------------------------------------------------------------- 
+                              count_sunny_in_description      count_friendly_in_description
+  neighbourhood_group                                             
+  Ciutat Vella                 30                              7  
+  Eixample                     46                              8  
+  Gràcia                       19                              1  
+  Horta-Guinardó               3                               0  
+  Les Corts                    8                               1  
+  Nou Barris                   0                               0  
+  Sant Andreu                  2                               3  
+  Sant Martí                   21                              7  
+  Sants-Montjuïc               26                              3  
+  Sarrià-Sant Gervasi          10                              0  
+</pre></div>
+
+
+<p>And voilà, now you can analyze all types of data using <code>.groupby()</code> and <code>.agg()</code> as long as you write an appropriate aggregation function!</p>
+<hr>
+<h2>Summary</h2>
+<p>In this post, we examined the use of <code>.agg()</code>, especially in combination with <code>.groupby()</code>.
+No more merging of several <code>.groupby()</code> results!</p>
+<p>From now on, you should always use <code>.agg()</code> when you need more than one or custom aggregation operations over
+the DataFrame's axis.</p>
+<p>Happy coding!</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="/tag/python.html">Python</a>
+      <a href="/tag/data.html">Data</a>
+      <a href="/tag/pandas.html">Pandas</a>
+    </p>
+  </div>
+
+  <div class="center social-share">
+    <p>Like this article? Share it with your friends!</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'filipgeppert-com';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy;  2019</p>
+<p>Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5cb1aa9b85683c98" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Filip Geppert - python & data developer ",
+  "url" : "",
+  "image": "",
+  "description": "My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision."
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
+
+
+
+
+    <link rel="shortcut icon" href="theme/img/icon.ico" type="image/x-icon">
+    <link rel="icon" href="theme/img/icon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-138257111-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="Filip Geppert" />
+<meta name="description" content="Guide on Pandas categorical variables. When, how and what for you should use them in your code." />
+<meta name="keywords" content="Python, Data, Pandas">
+
+<meta property="og:site_name" content="Filip Geppert - python & data developer"/>
+<meta property="og:title" content="Can Pandas understand that tall is taller than short? Use of categorical variables."/>
+<meta property="og:description" content="Guide on Pandas categorical variables. When, how and what for you should use them in your code."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="/DataFrame-Pandas-Categorical-Variables.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-04-22 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="/author/filip-geppert.html">
+<meta property="article:section" content="Data Science"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Data"/>
+<meta property="article:tag" content="Pandas"/>
+<meta property="og:image" content="">
+
+  <title>Filip Geppert - python & data developer &ndash; Can Pandas understand that tall is taller than short? Use of categorical variables.</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="">
+        <img src="/theme/img/profile.png" alt="" title="">
+      </a>
+      <h1><a href=""></a></h1>
+
+<h3>Python & Data developer</h3><p>My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision.</p>      <form class="row gap-y" action="https://formspree.io/filip.geppert@gmail.com"
+            method="POST">
+              <input
+                      class=""
+                      type="text"
+                      name="_replyto"
+                      placeholder="Newsletter signup"
+                      id="email">
+          <button class="btn" type="submit" value="Send">
+            Sign up!
+          </button>
+      </form>
+      <nav>
+        <ul class="list">
+
+          <li><a href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">cv</a></li>
+          <li><a href="https://buildondata.com" target="_blank">Want to hire python specialists?</a></li>
+          <li><a href="https://www.amazon.com/dp/B07P6Y9WQT" target="_blank">Try my e-Book on data science!</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+          <li>
+            <a  class="sc-twitter" href="https://twitter.com/filipgepper" target="_blank">
+            <i class="fab fa-twitter">
+            </i>
+          </a></li>
+          <li>
+            <a  class="sc-github" href="https://github.com/filipgeppert" target="_blank">
+            <i class="fab fa-github">
+            </i>
+          </a></li>
+          <li>
+            <a  class="sc-linkedin" href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">
+            <i class="fab fa-linkedin">
+            </i>
+          </a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="/index.html">Home</a>
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+
+
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="DataFrame-Pandas-Categorical-Variables">Can Pandas understand that tall is taller than short? Use of categorical variables.</h1>
+    <p>
+      Posted on Mon 22 April 2019 in <a href="/category/data-science.html">Data Science</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <hr>
+<h2>Why categorical variables?</h2>
+<p>With the growth of your data science projects, sooner or later you will realize that amount of RAM your computer has,
+is not enough. Probably you know that categorical variables give you a possibility to optimize used memory
+for columns that contain categorical data.
+Examples of categorical data are: </p>
+<ul>
+<li>Column: height, values: short, tall</li>
+<li>Column: country, values: USA, Poland</li>
+<li>Column: food, values: pizza, kebab</li>
+</ul>
+<p>Usually these will be strings containing some information on things that can't be written numerically. </p>
+<p>Apart from memory optimization, categorical data type gives you an option to tell Pandas about your information semantics and this is what
+we are going to focus on in this post. </p>
+<p>Particularly, I am going to show you how:</p>
+<ul>
+<li>you can convert column to categorical data and use <code>df.describe()</code> on it</li>
+<li>take advantage of <code>pd.cut()</code> Pandas method </li>
+<li>include data semantics and be able to execute statement <code>tall &gt; short</code></li>
+</ul>
+<hr>
+<h2>From continuous data to categorical description - use od <code>pd.cut()</code></h2>
+<p>Often we find in our datasets column with numerical data with clear semantic meaning. Example can be a column containing
+height of a person in centimeters. Sometimes we care only about quick information that this column conveys such as information 
+stating if a person is short, medium or tall. Let's see how we can call this in Pandas with the use of <code>pd.cut()</code> method.
+In order to understand how it works, let's see the following example:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Create dataframe with height column containing height in centimeters</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">20</span><span class="p">)})</span>
+<span class="c1"># Create labels for your bins</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">,</span> <span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="s2">&quot;tall&quot;</span><span class="p">]</span>
+<span class="c1"># Create ranges for your categtories (bins parameter). Notice that bins need to cover all numerical range included</span>
+<span class="c1"># in x column.</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">99</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+<span class="c1"># In this case our bins will be created in the following way:</span>
+<span class="c1"># short -&gt; (99,150]</span>
+<span class="c1"># medium -&gt; (150,180]</span>
+<span class="c1"># tall -&gt; (180, 200]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span>+---+--------+--------+
+|   | height | group  |
++---+--------+--------+
+| 0 |    178 | medium |
+| 1 |    104 | short  |
+| 2 |    178 | medium |
+| 3 |    121 | short  |
+| 4 |    157 | medium |
++---+--------+--------+
+</pre></div>
+
+
+<p>A few things to highlight:</p>
+<ul>
+<li>labels need to be contained in a list </li>
+<li>bins parameter needs to cover all numerical range that analyzed column has</li>
+<li>number of elements in bins list need to correspond with number of labels that were created in order to create 
+ appropriate numerical ranges.</li>
+</ul>
+<hr>
+<h2>Use of <code>.describe()</code></h2>
+<p>Once we have our <code>group</code> column containing semantic height meaning, it's a great moment to introduce Pandas categorical variables.
+Pandas provides a special object <code>CategoricalDtype</code> to create this type of variable. We initialize it by providing a list of 
+categories as a parameter. Then, we convert a column with the use of <code>.astype()</code> method and pass category object as a
+parameter. Finally, we can use <code>.describe()</code> method which I am sure that you call in case of columns that have numerical values. It has
+it's application for categorical columns as well.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pandas.api.types</span> <span class="kn">import</span> <span class="n">CategoricalDtype</span>
+
+<span class="n">height_order</span> <span class="o">=</span> <span class="n">CategoricalDtype</span><span class="p">(</span><span class="n">categories</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;short&#39;</span><span class="p">,</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="s1">&#39;tall&#39;</span><span class="p">],</span> <span class="n">ordered</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">group</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">group</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">height_order</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">group</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span>count         20
+unique         3
+top       medium
+freq           9
+Name: group, dtype: object
+</pre></div>
+
+
+<p>We see that now <code>.describe()</code> describes perfectly our categorical column. It tells how many rows it has, what are the unique 
+categories in column (short, medium and tall), what is the most frequent category (<code>top</code> parameter),
+and how many times it occurs in a column (<code>freq</code> parameter).</p>
+<hr>
+<h2>Categorical columns - specifying order and taking advantage of it</h2>
+<p>There is one thing that we haven't discussed previously. Notice when we create our <code>CategoricalDtype</code>, we set <code>ordered</code> parameter to <code>True</code>.
+By doing so, we tell Pandas that our category has the following semantics: short &lt; medium &lt; tall. From now on Pandas knows that tall is taller 
+than short and medium! </p>
+<p>This comes in handy when we want to sort a DataFrame based on categorical data type.</p>
+<div class="highlight"><pre><span></span><span class="c1"># Using order to sort values</span>
+<span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span>+----+--------+--------+
+|    | height | group  |
++----+--------+--------+
+| 17 |    196 | tall   |
+|  8 |    195 | tall   |
+|  9 |    194 | tall   |
+|  5 |    190 | tall   |
+|  0 |    178 | medium |
++----+--------+--------+
+</pre></div>
+
+
+<p>Moreover, we can use methods such us <code>.min()</code> and <code>.max()</code> on categorical columns:</p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">group</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">df</span><span class="o">.</span><span class="n">group</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span>(&#39;short&#39;, &#39;tall&#39;)
+</pre></div>
+
+
+<p>Finally, we can also create regular masks for categorical columns. We do that in the following way:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Comparing categorical variables</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">is_short</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">group</span> <span class="o">==</span> <span class="s2">&quot;short&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">taller_than_short</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">group</span> <span class="o">&gt;</span> <span class="s2">&quot;short&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Output: </p>
+<div class="highlight"><pre><span></span>+---+--------+--------+----------+-------------------+
+|   | height | group  | is_short | taller_than_short |
++---+--------+--------+----------+-------------------+
+| 0 |    113 | short  | True     | False             |
+| 1 |    152 | medium | False    | True              |
+| 2 |    177 | medium | False    | True              |
+| 3 |    163 | medium | False    | True              |
+| 4 |    179 | medium | False    | True              |
++---+--------+--------+----------+-------------------+
+</pre></div>
+
+
+<p>Here important thing to remember is that you must compare a categorical column with a variable that was previously 
+defined in the categories for that column. Any other comparison will result with <code>TypeError</code>.</p>
+<hr>
+<h2>Summary</h2>
+<p>In this posted we checked how and when we can use Pandas categorical variables. We saw how we can go from continous to categorical type of data,
+add structure to the categorical type and benefit from it in various ways.</p>
+<p><strong>Did you have a situation when you could use a categorial type?
+What is your most favourite use case for a categorical type? 
+Will you use this type in the future?
+Leave a comment below and let's discuss it a little!</strong></p>
+<p>Happy coding!</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="/tag/python.html">Python</a>
+      <a href="/tag/data.html">Data</a>
+      <a href="/tag/pandas.html">Pandas</a>
+    </p>
+  </div>
+
+  <div class="center social-share">
+    <p>Like this article? Share it with your friends!</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'filipgeppert-com';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy;  2019</p>
+<p>Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5cb1aa9b85683c98" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Filip Geppert - python & data developer ",
+  "url" : "",
+  "image": "",
+  "description": "My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision."
+}
+</script>
+
+</body>
+</html>

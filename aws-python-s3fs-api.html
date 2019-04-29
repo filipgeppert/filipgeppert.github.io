@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
+
+
+
+
+    <link rel="shortcut icon" href="theme/img/icon.ico" type="image/x-icon">
+    <link rel="icon" href="theme/img/icon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-138257111-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="Filip Geppert" />
+<meta name="description" content="Complete setup (with examples) for AWS S3 configuration using pythonic S3Fs package." />
+<meta name="keywords" content="Python, Data, Pandas, AWS">
+
+<meta property="og:site_name" content="Filip Geppert - python & data developer"/>
+<meta property="og:title" content="Keeping your datasets in the cloud. Pythonic guide on AWS S3 integration."/>
+<meta property="og:description" content="Complete setup (with examples) for AWS S3 configuration using pythonic S3Fs package."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="/aws-python-s3fs-api.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-04-29 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="/author/filip-geppert.html">
+<meta property="article:section" content="Data Science, Data Engineering"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Data"/>
+<meta property="article:tag" content="Pandas"/>
+<meta property="article:tag" content="AWS"/>
+<meta property="og:image" content="https://s3.amazonaws.com/filipgeppert-blog-materials/img/5.jpg">
+
+  <title>Filip Geppert - python & data developer &ndash; Keeping your datasets in the cloud. Pythonic guide on AWS S3 integration.</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="">
+        <img src="/theme/img/profile.png" alt="" title="">
+      </a>
+      <h1><a href=""></a></h1>
+
+<h3>Python & Data developer</h3><p>My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision.</p>      <form class="row gap-y" action="https://formspree.io/filip.geppert@gmail.com"
+            method="POST">
+              <input
+                      class=""
+                      type="text"
+                      name="_replyto"
+                      placeholder="Newsletter signup"
+                      id="email">
+          <button class="btn" type="submit" value="Send">
+            Sign up!
+          </button>
+      </form>
+      <nav>
+        <ul class="list">
+
+          <li><a href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">cv</a></li>
+          <li><a href="https://buildondata.com" target="_blank">Want to hire python specialists?</a></li>
+          <li><a href="https://www.amazon.com/dp/B07P6Y9WQT" target="_blank">Try my e-Book on data science!</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+          <li>
+            <a  class="sc-twitter" href="https://twitter.com/filipgepper" target="_blank">
+            <i class="fab fa-twitter">
+            </i>
+          </a></li>
+          <li>
+            <a  class="sc-github" href="https://github.com/filipgeppert" target="_blank">
+            <i class="fab fa-github">
+            </i>
+          </a></li>
+          <li>
+            <a  class="sc-linkedin" href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">
+            <i class="fab fa-linkedin">
+            </i>
+          </a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="/index.html">Home</a>
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+
+
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="aws-python-s3fs-api">Keeping your datasets in the cloud. Pythonic guide on AWS S3 integration.</h1>
+    <p>
+      Posted on Mon 29 April 2019 in <a href="/category/data-science-data-engineering.html">Data Science, Data Engineering</a>
+
+    </p>
+  </header>
+
+
+  <div>
+      <img src="https://s3.amazonaws.com/filipgeppert-blog-materials/img/5.jpg" alt="" style="width: 100%;">
+
+    <hr>
+<h2>What is AWS, S3 and S3Fs and why you should use it?</h2>
+<p>Cloud gives you multiple benefits:</p>
+<ul>
+<li>it's mobile (you can access from anywhere)</li>
+<li>it's scalable (you can easily increase its size)</li>
+<li>it's secure (cloud provides advanced security systems and you can add yours on top of these)</li>
+<li>it's available (risk of data loss
+is close to zero).</li>
+</ul>
+<p>Finally, as you keep your code organized using Git, cloud service gives you the same possibility for
+datasets making your whole data science project easily reproducible and sharable. </p>
+<p>In this post we are going to connect your machine with AWS using a Pythonic API.
+This setup will allow you to store and read your
+datasets from cloud directly into Pandas DataFrame. In particular, we are going to see how:</p>
+<ul>
+<li>you can start your AWS account and create S3 bucket</li>
+<li>connect your AWS account with your machine through AWS CLI</li>
+<li>write code for reading and writing files to S3</li>
+<li>create wrapping functions for both</li>
+</ul>
+<hr>
+<h2>Integrating your machine with S3</h2>
+<p>First thing you need to do in order to host your datasets on S3 is to create your AWS account. 
+You can sign up <a href="https://aws.amazon.com/#">here</a>
+A few things to highlight:</p>
+<ul>
+<li>during a signup you will need to provide your credit card info</li>
+<li>AWS provides you with one-year-long free tier. Trust me, it's more than enough to learn it and see its potential.
+  After one year, their pricing is still reasonable for keeping your files there.</li>
+</ul>
+<p>Second thing you need to do is to create an IAM user.</p>
+<ol>
+<li>Click <a href="https://console.aws.amazon.com/iam/home?#/home">here</a> and then on <code>Users</code> on the left side.</li>
+<li>Click on <code>Add user</code>, provide username and enable <code>Programmatic access.</code></li>
+<li>Attach <code>AmazonS3FullAccess</code> policy by clicking on attach <code>existing policies directly</code> and searching for it.</li>
+<li>Optionally, you can add some metadata describing your user (I skip this step).</li>
+<li><code>Create user</code> and download .csv file with access keys.</li>
+</ol>
+<p><img alt="AWS IAM user creation" src="https://s3.amazonaws.com/filipgeppert-blog-materials/articles/awscli.gif"></p>
+<p>Finally, open your command prompt and install the following packages:</p>
+<ul>
+<li><code>pip3 install awscli --upgrade --user</code></li>
+<li><code>pip install s3fs</code></li>
+<li><code>aws configure</code></li>
+</ul>
+<p>You will be asked to type AWS Key ID and AWS Secret Access Key. You can find these in the downloaded .csv file.
+Optionally, you can also provide default output format and region name.
+Configuration example:</p>
+<div class="highlight"><pre><span></span>$ aws configure
+AWS Access Key ID <span class="o">[</span>None<span class="o">]</span>: AKIAIOSFODNN7EXAMPLE
+AWS Secret Access Key <span class="o">[</span>None<span class="o">]</span>: wJalrXUtnGPLI/K7MDENG/bPxRfiCYEXAMPLEKEY
+Default region name <span class="o">[</span>None<span class="o">]</span>: us-west-2
+Default output format <span class="o">[</span>None<span class="o">]</span>: json
+</pre></div>
+
+
+<p>That's all. You have just configured your machine to work with S3!</p>
+<hr>
+<h2>Creating your first S3 bucket</h2>
+<p>Now you're ready to crate your first bucket on S3.
+Bucket is the name for a specific directory on S3. Treat is as a directory on your laptop.
+In order to create a bucket, you need to enter AWS S3 console. The procedure is the following:</p>
+<ol>
+<li>Enter console <a href="https://s3.console.aws.amazon.com/s3/">link</a></li>
+<li>Click on <code>Create bucket</code></li>
+<li>Set an unique bucket name, click <code>next</code> and later choose default configurations </li>
+<li>In the <code>Review</code> tab click <code>Create bucket</code></li>
+</ol>
+<p>That's it. Important thing is to remember the name that you gave to your bucket.</p>
+<hr>
+<h2>Taking advantage of S3Fs - S3 file interface</h2>
+<p>According to simple explanation provided in S3Fs <a href="https://s3fs.readthedocs.io/en/latest/">documentation</a>:</p>
+<blockquote>
+<p>S3Fs is a Pythonic file interface to S3. </p>
+</blockquote>
+<p>Thanks to S3Fs we can easily save and read files from S3 buckets. This comes in handy when we work
+on any data science project, because we only need internet connection to access our dataset from anywhere.</p>
+<p>Let's jump into examples. Firstly, let's see how we can write a DataFrame to S3:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">s3fs</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="c1"># Create a DataFrame</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]})</span>
+<span class="c1"># Save it to S3</span>
+<span class="c1"># Encode DataFrame to bytes</span>
+<span class="n">bytes_to_write</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+<span class="c1"># Use environmetal permissions</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="n">s3fs</span><span class="o">.</span><span class="n">S3FileSystem</span><span class="p">(</span><span class="n">anon</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">write_str</span> <span class="o">=</span> <span class="s1">&#39;s3://&lt;your_bucket_name&gt;/&lt;yout_file_name&gt;&#39;</span>
+<span class="c1"># Open connection with S3</span>
+<span class="k">with</span> <span class="n">fs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">write_str</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="c1"># Save your file </span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">bytes_to_write</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Important thing to note is <code>write_str</code> parameter. It is a string that you create for writing to S3. This string contains
+name of the bucket that you created and name of the file that you want to assign. Example of the string can be:
+<code>s3://my-bucket/results.csv</code>. Note that you can create sub-directories in your bucket.</p>
+<p>For reading from S3 we use the following procedure:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Use environmental permissions to authorize</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="n">s3fs</span><span class="o">.</span><span class="n">S3FileSystem</span><span class="p">(</span><span class="n">anon</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="c1"># Read a file from S3</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;s3://&lt;your_bucket_name&gt;/&lt;yout_file_name&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>As you see, reading is done with the use of <code>pd.read_csv</code> where we provide an url to our S3 as an input parameter.</p>
+<hr>
+<h2>S3Fs reading and writing wrappers</h2>
+<p>Below I prepared two functions that you can use in your scripts for both reading and writing your files to AWS S3:</p>
+<p>For writing a file to S3:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">save_dataframe_to_s3_as_csv</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bucket_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Saves DataFrame to s3 as csv file.</span>
+<span class="sd">    :param df: dataframe that will be saved</span>
+<span class="sd">    :param filename: name of the file that will be saved</span>
+<span class="sd">    :param bucket_path: absolute s3 path</span>
+<span class="sd">    :param date: date that will be added to the name of the file</span>
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Encode DataFrame to bytes</span>
+    <span class="n">bytes_to_write</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+    <span class="c1"># Use environmental permissions to authorize</span>
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">s3fs</span><span class="o">.</span><span class="n">S3FileSystem</span><span class="p">(</span><span class="n">anon</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="c1"># Create write string</span>
+    <span class="n">write_str</span> <span class="o">=</span> <span class="n">bucket_path</span> <span class="o">+</span> <span class="n">filename</span>
+    <span class="k">with</span> <span class="n">fs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">write_str</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">bytes_to_write</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{filename} was written to {write_str}&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;There was a problem with writing {filename} to {write_str}.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">None</span>
+</pre></div>
+
+
+<p>For reading a file from S3:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">read_csv_as_dataframe</span><span class="p">(</span><span class="n">bucket_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timestamp_column_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads s3 csv file as DataFrame.</span>
+<span class="sd">    :param filename: name of the file that will be appended</span>
+<span class="sd">    :param bucket_path: absolute s3 path</span>
+<span class="sd">    :param timestamp_column_name: name of the timestamp column</span>
+<span class="sd">    :return: csv file read as pandas DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Use environmental permissions to authorize</span>
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">s3fs</span><span class="o">.</span><span class="n">S3FileSystem</span><span class="p">(</span><span class="n">anon</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="c1"># Read aggregated stored file</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">bucket_path</span> <span class="o">+</span> <span class="n">filename</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="n">timestamp_column_name</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">df</span>
+</pre></div>
+
+
+<hr>
+<h2>Summary</h2>
+<p>In this post, we configured your machine to work with AWS S3 using S3Fs package. From now on, you can easily store
+your files on S3 and work with these just like with files stored on your machine. Once your machine crashes (it will one day),
+you will not worry that you lost important data or results from your projects.</p>
+<p><strong>Which functionalities of AWS would you like to have in your data scientist toolkit?
+Do you have a project where cloud implementation is a great choice?
+Are you using other cloud services? If so, why?</strong></p>
+<p>Let me know in the comment and let's discuss it a little!</p>
+<p>Happy coding!</p>
+  </div>
+
+  <div class="tag-cloud">
+    <p>
+      <a href="/tag/python.html">Python</a>
+      <a href="/tag/data.html">Data</a>
+      <a href="/tag/pandas.html">Pandas</a>
+      <a href="/tag/aws.html">AWS</a>
+    </p>
+  </div>
+
+  <div class="center social-share">
+    <p>Like this article? Share it with your friends!</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'filipgeppert-com';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy;  2019</p>
+<p>Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5cb1aa9b85683c98" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Filip Geppert - python & data developer ",
+  "url" : "",
+  "image": "",
+  "description": "My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision."
+}
+</script>
+
+</body>
+</html>

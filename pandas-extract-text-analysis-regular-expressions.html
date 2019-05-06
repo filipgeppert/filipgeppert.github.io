@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
+
+
+
+
+    <link rel="shortcut icon" href="theme/img/icon.ico" type="image/x-icon">
+    <link rel="icon" href="theme/img/icon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-138257111-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="Filip Geppert" />
+<meta name="description" content="Guide on text analysis with the use of regular expressions and Pandas methods." />
+<meta name="keywords" content="Python, Data, Pandas, Text analysis">
+
+<meta property="og:site_name" content="Filip Geppert - python & data developer"/>
+<meta property="og:title" content="Dealing with text data using regular expressions. How Pandas can .extract information."/>
+<meta property="og:description" content="Guide on text analysis with the use of regular expressions and Pandas methods."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="/pandas-extract-text-analysis-regular-expressions.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-05-05 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="/author/filip-geppert.html">
+<meta property="article:section" content="Data Science"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Data"/>
+<meta property="article:tag" content="Pandas"/>
+<meta property="article:tag" content="Text analysis"/>
+<meta property="og:image" content="https://s3.amazonaws.com/filipgeppert-blog-materials/img/6.jpg">
+
+  <title>Filip Geppert - python & data developer &ndash; Dealing with text data using regular expressions. How Pandas can .extract information.</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="">
+        <img src="/theme/img/profile.png" alt="" title="">
+      </a>
+      <h1><a href=""></a></h1>
+
+<h3>Python & Data developer</h3><p>My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision.</p>      <form class="row gap-y" action="https://formspree.io/filip.geppert@gmail.com"
+            method="POST">
+              <input
+                      class=""
+                      type="text"
+                      name="_replyto"
+                      placeholder="Newsletter signup"
+                      id="email">
+          <button class="btn" type="submit" value="Send">
+            Sign up!
+          </button>
+      </form>
+      <nav>
+        <ul class="list">
+
+          <li><a href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">cv</a></li>
+          <li><a href="https://buildondata.com" target="_blank">Want to hire python specialists?</a></li>
+          <li><a href="https://www.amazon.com/dp/B07P6Y9WQT" target="_blank">Try my e-Book on data science!</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+          <li>
+            <a  class="sc-twitter" href="https://twitter.com/filipgepper" target="_blank">
+            <i class="fab fa-twitter">
+            </i>
+          </a></li>
+          <li>
+            <a  class="sc-github" href="https://github.com/filipgeppert" target="_blank">
+            <i class="fab fa-github">
+            </i>
+          </a></li>
+          <li>
+            <a  class="sc-linkedin" href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">
+            <i class="fab fa-linkedin">
+            </i>
+          </a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="/index.html">Home</a>
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+
+
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="pandas-extract-text-analysis-regular-expressions">Dealing with text data using regular expressions. How Pandas can .extract information.</h1>
+    <p>
+      Posted on Sun 05 May 2019 in <a href="/category/data-science.html">Data Science</a>
+
+    </p>
+  </header>
+
+
+  <div>
+      <img src="https://s3.amazonaws.com/filipgeppert-blog-materials/img/6.jpg" alt="" style="width: 100%;">
+
+    <hr>
+<h2>What are regular expressions and why are these useful?</h2>
+<p>Working with text data can be laborious when you don't know where to start. Usually, one will
+need to search for regularities in text, especially when the output needs to be presented in a tabular format.</p>
+<p>That's one of the reasons, why Python contains <code>.re</code> as one of its default modules. <code>.re</code> helps you to work with text 
+data and search for various regularities. Using regex (common way to call regular expressions) can help you immensely
+with text analysis. Moreover, Pandas has a few methods that will make it easier for you.</p>
+<p>In today's post we are going to:</p>
+<ul>
+<li>See basic and advanced uses of <code>re.search</code> with their thorough explanation</li>
+<li>Use <code>.expand</code> to show how Pandas works with regular expressions</li>
+<li>Provide useful resources to learn more and speed up your work especially in text analysis</li>
+</ul>
+<hr>
+<h2>Regular expressions - a gentle introduction</h2>
+<p>Url of this blog post is the following: <code>https://filipgeppert.com/pandas-extract-text-analysis-regular-expressions</code>.
+Let's say that we are particularly interested in extracting both a domain name and a title of the post, as separate strings.
+This is the code that does this job for a domain name:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="c1"># Our search string</span>
+<span class="n">search_string</span> <span class="o">=</span> <span class="s1">&#39;https://filipgeppert.com/pandas-extract-text-analysis-regular-expressions&#39;</span>
+<span class="c1"># Regular expresssion</span>
+<span class="n">regex</span> <span class="o">=</span> <span class="s1">&#39;\w+(\.)\w+&#39;</span>
+<span class="c1"># Domain name</span>
+<span class="n">domain_name</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">search_string</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">domain_name</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span>filipgeppert.com
+</pre></div>
+
+
+<p>A few things to highlight:</p>
+<ul>
+<li><code>\w</code> is a shortcut for any word character</li>
+<li><code>+</code> means that we are interested in more than one neighbouring characters</li>
+<li><code>(\.)</code> - dot is a special character and we use backslash to highlight that it also should be matched</li>
+</ul>
+<p>The translation of our regex is: <code>Search for two groups of letters that are separated by one dot.</code></p>
+<p><code>re.search</code> takes our regex, and tries to search this pattern over the whole string. If it finds any (can be more than
+one), then it returns your results. <code>.group(0)</code> means that we want the first matched result to be returned.</p>
+<hr>
+<h2>Regular expressions - working with groups</h2>
+<p>For a remaining part of url, which is a title of this post, the regex will be the following:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="c1"># Our search string</span>
+<span class="n">search_string</span> <span class="o">=</span> <span class="s1">&#39;https://filipgeppert.com/pandas-extract-text-analysis-regular-expressions&#39;</span>
+<span class="c1"># Regular expresssion</span>
+<span class="n">regex</span> <span class="o">=</span> <span class="s1">&#39;\w\/(?P&lt;post_title&gt;(.+))\Z&#39;</span>
+<span class="c1"># Domain name</span>
+<span class="n">post_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">search_string</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;post_title&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">post_title</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span>pandas-extract-text-analysis-regular-expressions
+</pre></div>
+
+
+<p>A few things have changed, so let me explain it a little. Please start reading this regex from the end:</p>
+<ul>
+<li><code>\Z</code> is a flag that says that we want to start searching exactly from the end of a string</li>
+<li><code>(?P&lt;post_title&gt;(.+))</code> introduces the concept of groups. The syntax is the following <code>(?P&lt;group_name&gt;YOUR REGEX)</code>
+So basically, our group's name is post_title and our regex is <code>(.+)</code> that matches any character for an infinite number 
+of times</li>
+<li><code>\/</code> is a match for a forward slash. It is a special character and it needs to be preceded by backslash</li>
+<li><code>\w</code> tells that we want to match exactly one word character</li>
+</ul>
+<p>The translation of our regex is: <code>Start searching from the end. Match any character until a forward slash and a letter are found. Name
+this group post_title</code>.</p>
+<p><code>re.search</code> takes our regex, and tries to search this pattern over the whole string. It is going to find exactly one string (if there is one)
+and create a dictionary with the name of the group as a key and value being the string. That is why this time we called
+<code>.group('post_title')</code> to obtain our result.</p>
+<hr>
+<h2><code>.extract</code> information with the use of Pandas</h2>
+<p>So far we've seen operations on only one string. But what if we want to apply a regex to the whole column in any DataFrame?</p>
+<p>In this case, Pandas helps us with <code>.extract</code> method. Let's see how it can be used.
+Our DataFrame contains titles of blog posts:</p>
+<div class="highlight"><pre><span></span>+-------------------------------------------------------------------------------------------------------------+
+|                                                     url                                                     |
++-------------------------------------------------------------------------------------------------------------+
+| https://filipgeppert.com/aws-python-s3fs-api.html#aws-python-s3fs-api                                       |
+| https://filipgeppert.com/DataFrame-Pandas-Categorical-Variables.html#DataFrame-Pandas-Categorical-Variables |
+| https://filipgeppert.com/DataFrame-GroupBy-agg.html#DataFrame-GroupBy-agg                                   |
+| https://filipgeppert.com/for-loop-in-pandas-apply.html#for-loop-in-pandas-apply                             |
+| https://filipgeppert.com                                                                                    |
++-------------------------------------------------------------------------------------------------------------+
+</pre></div>
+
+
+<p>Let's see how we can use regex in order to extract a domain name.</p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="s1">&#39;https:\/\/(?P&lt;domain_name&gt;\w+)\.\w+&#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span>+-----------------+
+|   domain_name   |
++-----------------+
+| 0  filipgeppert |
+| 1  filipgeppert |
+| 2  filipgeppert |
+| 3  filipgeppert |
+| 4  filipgeppert |
++-----------------+
+</pre></div>
+
+
+<p>We used <code>.extract</code> which is a <code>str</code> method. We used it on <code>url</code> column and gave a regular expression as its first parameter.
+Moreover, we set <code>expand</code> to <code>True</code>, which tells that we want our output to be a DataFrame.  </p>
+<p>Similarly, we can use <code>.extract</code> to separate post title. </p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="s1">&#39;\w\/(?P&lt;post_title&gt;.+)\Z&#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span>+------------------------------------------------------------------------------------+
+|                                      post_title                                    |
++------------------------------------------------------------------------------------+
+| aws-python-s3fs-api.html#aws-python-s3fs-api                                       |
+| DataFrame-Pandas-Categorical-Variables.html#DataFrame-Pandas-Categorical-Variables |
+| DataFrame-GroupBy-agg.html#DataFrame-GroupBy-agg                                   |
+| for-loop-in-pandas-apply.html#for-loop-in-pandas-apply                             |
+| NaN                                                                                |
++------------------------------------------------------------------------------------+
+</pre></div>
+
+
+<p>Note that for stings where <code>post_title</code> was not found, Pandas returned <code>NaN</code>.</p>
+<hr>
+<h2>Summary and useful resources</h2>
+<p>In this post we checked how Pandas and Python regular expressions can be used in your text analysis. </p>
+<p>If you plan to work more with regexes, these are two resources that I strongly recommend you to check:</p>
+<ul>
+<li><a href="https://regex101.com/" target="_blank">regex101.com</a> - a place, where you can quickly validate your regex and see its output</li>
+<li><a href="https://docs.python.org/3/library/re.html" target="_blank">Python documentation</a> - a comprehensive guide on regular expressions,
+explaining all its advantages and use cases</li>
+</ul>
+<p>Let me know in the comment if you have any texts that you would like to analyze! Hopefully, I can suggest the right tool
+for it!:)
+Finally, don't forget to sign up for newsletter and be notified once a new post is released:)</p>
+<p>Happy coding!</p>
+  </div>
+
+  <div class="tag-cloud">
+    <p>
+      <a href="/tag/python.html">Python</a>
+      <a href="/tag/data.html">Data</a>
+      <a href="/tag/pandas.html">Pandas</a>
+      <a href="/tag/text-analysis.html">Text analysis</a>
+    </p>
+  </div>
+
+  <div class="center social-share">
+    <p>Like this article? Share it with your friends!</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
+  </div>
+
+  <div class="neighbors">
+    <a class="btn float-left" href="/aws-python-s3fs-api.html" title="Keeping your datasets in the cloud. Pythonic guide on AWS S3 integration.">
+      <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+  </div>
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'filipgeppert-com';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy;  2019</p>
+<p>Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5cb1aa9b85683c98" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Filip Geppert - python & data developer ",
+  "url" : "",
+  "image": "",
+  "description": "My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision."
+}
+</script>
+
+</body>
+</html>

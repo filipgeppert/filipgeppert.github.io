@@ -162,7 +162,7 @@ This is the code that does this job for a domain name:</p>
 
 
 <p>Output:</p>
-<div class="highlight"><pre><span></span>filipgeppert.com
+<div class="highlight"><pre><span></span><span class="n">filipgeppert</span><span class="p">.</span><span class="n">com</span>
 </pre></div>
 
 
@@ -190,7 +190,7 @@ one), then it returns your results. <code>.group(0)</code> means that we want th
 
 
 <p>Output:</p>
-<div class="highlight"><pre><span></span>pandas-extract-text-analysis-regular-expressions
+<div class="highlight"><pre><span></span><span class="n">pandas</span><span class="o">-</span><span class="k">extract</span><span class="o">-</span><span class="nb">text</span><span class="o">-</span><span class="n">analysis</span><span class="o">-</span><span class="n">regular</span><span class="o">-</span><span class="n">expressions</span>
 </pre></div>
 
 
@@ -213,15 +213,15 @@ and create a dictionary with the name of the group as a key and value being the 
 <p>So far we've seen operations on only one string. But what if we want to apply a regex to the whole column in any DataFrame?</p>
 <p>In this case, Pandas helps us with <code>.extract</code> method. Let's see how it can be used.
 Our DataFrame contains titles of blog posts:</p>
-<div class="highlight"><pre><span></span>+-------------------------------------------------------------------------------------------------------------+
-|                                                     url                                                     |
-+-------------------------------------------------------------------------------------------------------------+
-| https://filipgeppert.com/aws-python-s3fs-api.html#aws-python-s3fs-api                                       |
-| https://filipgeppert.com/DataFrame-Pandas-Categorical-Variables.html#DataFrame-Pandas-Categorical-Variables |
-| https://filipgeppert.com/DataFrame-GroupBy-agg.html#DataFrame-GroupBy-agg                                   |
-| https://filipgeppert.com/for-loop-in-pandas-apply.html#for-loop-in-pandas-apply                             |
-| https://filipgeppert.com                                                                                    |
-+-------------------------------------------------------------------------------------------------------------+
+<div class="highlight"><pre><span></span><span class="o">+-------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span>                                                     <span class="nv">url</span>                                                     <span class="o">|</span>
+<span class="o">+-------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span> <span class="nv">https</span>:<span class="o">//</span><span class="nv">filipgeppert</span>.<span class="nv">com</span><span class="o">/</span><span class="nv">aws</span><span class="o">-</span><span class="nv">python</span><span class="o">-</span><span class="nv">s3fs</span><span class="o">-</span><span class="nv">api</span>.<span class="nv">html</span>#<span class="nv">aws</span><span class="o">-</span><span class="nv">python</span><span class="o">-</span><span class="nv">s3fs</span><span class="o">-</span><span class="nv">api</span>                                       <span class="o">|</span>
+<span class="o">|</span> <span class="nv">https</span>:<span class="o">//</span><span class="nv">filipgeppert</span>.<span class="nv">com</span><span class="o">/</span><span class="nv">DataFrame</span><span class="o">-</span><span class="nv">Pandas</span><span class="o">-</span><span class="nv">Categorical</span><span class="o">-</span><span class="nv">Variables</span>.<span class="nv">html</span>#<span class="nv">DataFrame</span><span class="o">-</span><span class="nv">Pandas</span><span class="o">-</span><span class="nv">Categorical</span><span class="o">-</span><span class="nv">Variables</span> <span class="o">|</span>
+<span class="o">|</span> <span class="nv">https</span>:<span class="o">//</span><span class="nv">filipgeppert</span>.<span class="nv">com</span><span class="o">/</span><span class="nv">DataFrame</span><span class="o">-</span><span class="nv">GroupBy</span><span class="o">-</span><span class="nv">agg</span>.<span class="nv">html</span>#<span class="nv">DataFrame</span><span class="o">-</span><span class="nv">GroupBy</span><span class="o">-</span><span class="nv">agg</span>                                   <span class="o">|</span>
+<span class="o">|</span> <span class="nv">https</span>:<span class="o">//</span><span class="nv">filipgeppert</span>.<span class="nv">com</span><span class="o">/</span><span class="k">for</span><span class="o">-</span><span class="k">loop</span><span class="o">-</span><span class="nv">in</span><span class="o">-</span><span class="nv">pandas</span><span class="o">-</span><span class="nv">apply</span>.<span class="nv">html</span>#<span class="k">for</span><span class="o">-</span><span class="k">loop</span><span class="o">-</span><span class="nv">in</span><span class="o">-</span><span class="nv">pandas</span><span class="o">-</span><span class="nv">apply</span>                             <span class="o">|</span>
+<span class="o">|</span> <span class="nv">https</span>:<span class="o">//</span><span class="nv">filipgeppert</span>.<span class="nv">com</span>                                                                                    <span class="o">|</span>
+<span class="o">+-------------------------------------------------------------------------------------------------------------+</span>
 </pre></div>
 
 
@@ -231,15 +231,15 @@ Our DataFrame contains titles of blog posts:</p>
 
 
 <p>Output:</p>
-<div class="highlight"><pre><span></span>+-----------------+
-|   domain_name   |
-+-----------------+
-| 0  filipgeppert |
-| 1  filipgeppert |
-| 2  filipgeppert |
-| 3  filipgeppert |
-| 4  filipgeppert |
-+-----------------+
+<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">-----------------+</span>
+<span class="o">|</span>   <span class="n">domain_name</span>   <span class="o">|</span>
+<span class="o">+</span><span class="c1">-----------------+</span>
+<span class="o">|</span> <span class="mi">0</span>  <span class="n">filipgeppert</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">1</span>  <span class="n">filipgeppert</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">2</span>  <span class="n">filipgeppert</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">3</span>  <span class="n">filipgeppert</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">4</span>  <span class="n">filipgeppert</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">-----------------+</span>
 </pre></div>
 
 
@@ -251,15 +251,15 @@ Moreover, we set <code>expand</code> to <code>True</code>, which tells that we w
 
 
 <p>Output:</p>
-<div class="highlight"><pre><span></span>+------------------------------------------------------------------------------------+
-|                                      post_title                                    |
-+------------------------------------------------------------------------------------+
-| aws-python-s3fs-api.html#aws-python-s3fs-api                                       |
-| DataFrame-Pandas-Categorical-Variables.html#DataFrame-Pandas-Categorical-Variables |
-| DataFrame-GroupBy-agg.html#DataFrame-GroupBy-agg                                   |
-| for-loop-in-pandas-apply.html#for-loop-in-pandas-apply                             |
-| NaN                                                                                |
-+------------------------------------------------------------------------------------+
+<div class="highlight"><pre><span></span><span class="o">+------------------------------------------------------------------------------------+</span>
+<span class="o">|</span>                                      <span class="nv">post_title</span>                                    <span class="o">|</span>
+<span class="o">+------------------------------------------------------------------------------------+</span>
+<span class="o">|</span> <span class="nv">aws</span><span class="o">-</span><span class="nv">python</span><span class="o">-</span><span class="nv">s3fs</span><span class="o">-</span><span class="nv">api</span>.<span class="nv">html</span>#<span class="nv">aws</span><span class="o">-</span><span class="nv">python</span><span class="o">-</span><span class="nv">s3fs</span><span class="o">-</span><span class="nv">api</span>                                       <span class="o">|</span>
+<span class="o">|</span> <span class="nv">DataFrame</span><span class="o">-</span><span class="nv">Pandas</span><span class="o">-</span><span class="nv">Categorical</span><span class="o">-</span><span class="nv">Variables</span>.<span class="nv">html</span>#<span class="nv">DataFrame</span><span class="o">-</span><span class="nv">Pandas</span><span class="o">-</span><span class="nv">Categorical</span><span class="o">-</span><span class="nv">Variables</span> <span class="o">|</span>
+<span class="o">|</span> <span class="nv">DataFrame</span><span class="o">-</span><span class="nv">GroupBy</span><span class="o">-</span><span class="nv">agg</span>.<span class="nv">html</span>#<span class="nv">DataFrame</span><span class="o">-</span><span class="nv">GroupBy</span><span class="o">-</span><span class="nv">agg</span>                                   <span class="o">|</span>
+<span class="o">|</span> <span class="k">for</span><span class="o">-</span><span class="k">loop</span><span class="o">-</span><span class="nv">in</span><span class="o">-</span><span class="nv">pandas</span><span class="o">-</span><span class="nv">apply</span>.<span class="nv">html</span>#<span class="k">for</span><span class="o">-</span><span class="k">loop</span><span class="o">-</span><span class="nv">in</span><span class="o">-</span><span class="nv">pandas</span><span class="o">-</span><span class="nv">apply</span>                             <span class="o">|</span>
+<span class="o">|</span> <span class="nv">NaN</span>                                                                                <span class="o">|</span>
+<span class="o">+------------------------------------------------------------------------------------+</span>
 </pre></div>
 
 
@@ -269,8 +269,8 @@ Moreover, we set <code>expand</code> to <code>True</code>, which tells that we w
 <p>In this post we checked how Pandas and Python regular expressions can be used in your text analysis. </p>
 <p>If you plan to work more with regexes, these are two resources that I strongly recommend you to check:</p>
 <ul>
-<li><a href="https://regex101.com/" target="_blank">regex101.com</a> - a place, where you can quickly validate your regex and see its output</li>
-<li><a href="https://docs.python.org/3/library/re.html" target="_blank">Python documentation</a> - a comprehensive guide on regular expressions,
+<li><a href="https://regex101.com/">regex101.com</a> - a place, where you can quickly validate your regex and see its output</li>
+<li><a href="https://docs.python.org/3/library/re.html">Python documentation</a> - a comprehensive guide on regular expressions, 
 explaining all its advantages and use cases</li>
 </ul>
 <p>Let me know in the comment if you have any texts that you would like to analyze! Hopefully, I can suggest the right tool
@@ -298,6 +298,9 @@ Finally, don't forget to sign up for newsletter and be notified once a new post 
   <div class="neighbors">
     <a class="btn float-left" href="/aws-python-s3fs-api.html" title="Keeping your datasets in the cloud. Pythonic guide on AWS S3 integration.">
       <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+    <a class="btn float-right" href="/open-cv-basics-guide.html" title="Pythonic intro to OpenCV.">
+      Next Post <i class="fa fa-angle-right"></i>
     </a>
   </div>
 

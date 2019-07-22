@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
+
+
+
+
+    <link rel="shortcut icon" href="theme/img/icon.ico" type="image/x-icon">
+    <link rel="icon" href="theme/img/icon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-138257111-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="Filip Geppert" />
+<meta name="description" content="OpenCV examples showing its crucial functionalities." />
+<meta name="keywords" content="Python, OpenCV, Pizza project">
+
+<meta property="og:site_name" content="Filip Geppert - python & data developer"/>
+<meta property="og:title" content="Pythonic intro to OpenCV."/>
+<meta property="og:description" content="OpenCV examples showing its crucial functionalities."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="/open-cv-basics-guide.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-07-22 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="/author/filip-geppert.html">
+<meta property="article:section" content="Data Science, Computer Vision"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="OpenCV"/>
+<meta property="article:tag" content="Pizza project"/>
+<meta property="og:image" content="https://filipgeppert-blog-materials.s3.amazonaws.com/img/opencv/image_pizza_detected.png">
+
+  <title>Filip Geppert - python & data developer &ndash; Pythonic intro to OpenCV.</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="">
+        <img src="/theme/img/profile.png" alt="" title="">
+      </a>
+      <h1><a href=""></a></h1>
+
+<h3>Python & Data developer</h3><p>My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision.</p>      <form class="row gap-y" action="https://formspree.io/filip.geppert@gmail.com"
+            method="POST">
+              <input
+                      class=""
+                      type="text"
+                      name="_replyto"
+                      placeholder="Newsletter signup"
+                      id="email">
+          <button class="btn" type="submit" value="Send">
+            Sign up!
+          </button>
+      </form>
+      <nav>
+        <ul class="list">
+
+          <li><a href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">cv</a></li>
+          <li><a href="https://buildondata.com" target="_blank">Want to hire python specialists?</a></li>
+          <li><a href="https://www.amazon.com/dp/B07P6Y9WQT" target="_blank">Try my e-Book on data science!</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+          <li>
+            <a  class="sc-twitter" href="https://twitter.com/filipgepper" target="_blank">
+            <i class="fab fa-twitter">
+            </i>
+          </a></li>
+          <li>
+            <a  class="sc-github" href="https://github.com/filipgeppert" target="_blank">
+            <i class="fab fa-github">
+            </i>
+          </a></li>
+          <li>
+            <a  class="sc-linkedin" href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">
+            <i class="fab fa-linkedin">
+            </i>
+          </a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="/index.html">Home</a>
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+
+
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="open-cv-basics-guide">Pythonic intro to OpenCV.</h1>
+    <p>
+      Posted on Mon 22 July 2019 in <a href="/category/data-science-computer-vision.html">Data Science, Computer Vision</a>
+
+    </p>
+  </header>
+
+
+  <div>
+      <img src="https://filipgeppert-blog-materials.s3.amazonaws.com/img/opencv/image_pizza_detected.png" alt="" style="width: 100%;">
+
+    <h2>What is OpenCV and what can you use it for?</h2>
+<p>Tons of stuff is written on OpenCV. However, it originates from C++ and with the rise of Python, its' API was developed as well. 
+That's why when you struggle with some problem, majority of OpenCV examples will be written in C++,
+and it's the reason why today I am going to show you a few pythonic snippets describing: </p>
+<ul>
+<li>how can you open and get basic image information</li>
+<li>how can detect object on image </li>
+<li>how can you cut a part of image that is important to you</li>
+<li>how can you save your results</li>
+</ul>
+<p>Today's post is a first part of a mini-project, where we explore unsupervised machine learning methods
+and build a classifier that checks if pizza appears on a given image.</p>
+<hr>
+<h2>Pizza project description</h2>
+<p>We all love pizza, don't we? As we also love machine learning, we would like to build a classifier
+that checks if a given photography shows pizza on it. </p>
+<p>How would we approach it?</p>
+<ol>
+<li>We need to collect data</li>
+<li>We need to build our classifier</li>
+<li>We need to evaluate our model</li>
+</ol>
+<p>Today, we are going to take care of the first point, but in coming next weeks, I will show you how can you do the remaining two.
+Want to stay updated? 
+<br><b>Sign up to my newsletter, and I will let you know once new post is available</b>!</p>
+<h2>How can you open and get basic image info using OpenCV</h2>
+<p>Reading image in OpenCV can be done with the following lines:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="c1"># Read image</span>
+<span class="n">img_colored</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;pizza.jpg&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">img_colored</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">img_colored</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">img_colored</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">]))</span>
+</pre></div>
+
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">426</span><span class="p">,</span> <span class="mi">640</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">#</span> <span class="n">Height</span><span class="p">,</span> <span class="n">Width</span><span class="p">,</span> <span class="nb">Number</span> <span class="k">of</span> <span class="n">channels</span>
+<span class="o">&lt;</span><span class="k">class</span> <span class="s1">&#39;numpy.ndarray&#39;</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<p><img alt="pizza image" src="https://filipgeppert-blog-materials.s3.amazonaws.com/img/opencv/pizza.jpg" title="Pizza"></p>
+<p>As you can see, every image after being read, is a numpy array. Moreover, every image is represented in BGR color space,
+which means that there are 426x640 of color components (blue, green and red). These components can take value from 0 to 255.
+So to explain it in plain words, for computer, our picture looks like this:</p>
+<div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="c1">------------ 640 columns ----------------&gt;</span>
+
+<span class="o">+</span><span class="c1">-----------+-----+-----------+-----------+   </span>
+<span class="o">|</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">189</span><span class="p">]</span> <span class="o">|</span> <span class="p">...</span> <span class="o">|</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">189</span><span class="p">]</span> <span class="o">|</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">189</span><span class="p">]</span> <span class="o">|</span>   <span class="o">|</span>
+<span class="o">+</span><span class="c1">-----------+-----+-----------+-----------+   |</span>
+<span class="o">|</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">189</span><span class="p">]</span> <span class="o">|</span> <span class="p">...</span> <span class="o">|</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">189</span><span class="p">]</span> <span class="o">|</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">189</span><span class="p">]</span> <span class="o">|</span>   <span class="o">|</span> <span class="mi">426</span> <span class="k">rows</span>
+<span class="o">+</span><span class="c1">-----------+-----+-----------+-----------+   |</span>
+<span class="o">|</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">189</span><span class="p">]</span> <span class="o">|</span> <span class="p">...</span> <span class="o">|</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">189</span><span class="p">]</span> <span class="o">|</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">189</span><span class="p">]</span> <span class="o">|</span>   <span class="o">|</span>  
+<span class="o">+</span><span class="c1">-----------+-----+-----------+-----------+</span>
+</pre></div>
+
+
+<p>It's divided into small squares. Each of this square is 3-element-array that can take value from [0,0,0] to [255,255,255].</p>
+<h2>Selecting our ROI</h2>
+<p>ROI - region of interest is a part of image that we would like to extract. 
+In our case it's pizza. To create ROI, we have a few options:</p>
+<ul>
+<li>we can detect circles using Hough Circle Transform -&gt; <a href="https://docs.opencv.org/2.4/doc/tutorials/imgproc/imgtrans/hough_circle/hough_circle.html" target="_blank">more info</a></li>
+<li>we can detect circles by specifying dominating pizza color -&gt; <a href="https://docs.opencv.org/3.4/da/d97/tutorial_threshold_inRange.html" target="_blank">more info</a></li>
+<li>we can use mouse cursor to mark our ROI -&gt; more info soon</li>
+</ul>
+<p>in all cases, our result will be array with 3 channels and size set by us.</p>
+<p>Let's see how circle detection looks like. Firstly, we need to pre-process our image to reduce noise
+(average neighbouring pixels) and convert it to grayscale (reduce from 3 channels to 1). These operations are very common
+in image processing, since very often we don't need as much data to process. That's why to speed up
+computation time, we exclude unnecessary information.</p>
+<div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img_colored</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span> <span class="c1"># Convert to grayscale</span>
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">/</span><span class="mi">25</span> <span class="c1"># Define kernel and divider. Note: these are hyperparameters that can be modified</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">filter2D</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span> <span class="c1"># Apply a linear filer on image</span>
+</pre></div>
+
+
+<p>Currently, image looks like this:</p>
+<p><img alt="pizza image" src="https://filipgeppert-blog-materials.s3.amazonaws.com/img/opencv/image_grey.png" title="Pizza"></p>
+<h2>Detecting circles using Hough Circle Transform</h2>
+<p>To detect circles, we will use <code>HoughCircles</code> method given by OpenCV api. The most important parameters are:</p>
+<ul>
+<li><code>minDist</code> - min distance between detected circle centers</li>
+<li><code>minRadius</code> and <code>maxRadius</code> - minimal and maximal radius length</li>
+<li><code>param1</code> and <code>param2</code> - thresholds for edge and center detection</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="n">circles</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">HoughCircles</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">img</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">HOUGH_GRADIENT</span><span class="p">,</span> <span class="n">dp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">minDist</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+                           <span class="n">param1</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">param2</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">minRadius</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span> <span class="n">maxRadius</span><span class="o">=</span><span class="mi">190</span><span class="p">)</span>
+
+<span class="c1"># Draw detected circle on image</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">circles</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]:</span>
+    <span class="c1"># draw the outer circle</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">img_colored</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;detected circles&#39;</span><span class="p">,</span> <span class="n">img_colored</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="pizza image" src="https://filipgeppert-blog-materials.s3.amazonaws.com/img/opencv/image_pizza_detected.png" title="Pizza"></p>
+<p>Notice, that we detected circles on a grey image, but we drew green circle on the colored image. I think that this way 
+it looks better, but you can similarly draw it on any image with the same shape. </p>
+<p>Don't forget to close/save the image, once you finish looking at it. You can use the following code:</p>
+<div class="highlight"><pre><span></span><span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s1">&#39;image_pizza_detected.png&#39;</span><span class="p">,</span> <span class="n">img_colored</span><span class="p">)</span> <span class="c1"># saves image to current directory</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+
+
+<h2>Summary</h2>
+<p>In this post, we learned how one can use OpenCV to detect circles on images. This can be applied to detect any other shape, 
+using various methods provided by OpenCV API. </p>
+<p>Curious about OpenCV? Let me know in the comment and I am happy to answer all your
+questions:)</p>
+<p>Remember that this post is a beginning of a mini-series, where we explore unsupervised machine learning methods
+and build a classifier that checks if pizza appears on a given image. Stay tuned for next parts!</p>
+<p>Happy coding!</p>
+  </div>
+
+  <div class="tag-cloud">
+    <p>
+      <a href="/tag/python.html">Python</a>
+      <a href="/tag/opencv.html">OpenCV</a>
+      <a href="/tag/pizza-project.html">Pizza project</a>
+    </p>
+  </div>
+
+  <div class="center social-share">
+    <p>Like this article? Share it with your friends!</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
+  </div>
+
+  <div class="neighbors">
+    <a class="btn float-left" href="/pandas-extract-text-analysis-regular-expressions.html" title="Dealing with text data using regular expressions. How Pandas can .extract information.">
+      <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+  </div>
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'filipgeppert-com';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy;  2019</p>
+<p>Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5cb1aa9b85683c98" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Filip Geppert - python & data developer ",
+  "url" : "",
+  "image": "",
+  "description": "My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision."
+}
+</script>
+
+</body>
+</html>

@@ -173,15 +173,15 @@ In order to understand how it works, let's see the following example:</p>
 
 
 <p>Output:</p>
-<div class="highlight"><pre><span></span>+---+--------+--------+
-|   | height | group  |
-+---+--------+--------+
-| 0 |    178 | medium |
-| 1 |    104 | short  |
-| 2 |    178 | medium |
-| 3 |    121 | short  |
-| 4 |    157 | medium |
-+---+--------+--------+
+<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">---+--------+--------+</span>
+<span class="o">|</span>   <span class="o">|</span> <span class="n">height</span> <span class="o">|</span> <span class="k">group</span>  <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+--------+--------+</span>
+<span class="o">|</span> <span class="mi">0</span> <span class="o">|</span>    <span class="mi">178</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">1</span> <span class="o">|</span>    <span class="mi">104</span> <span class="o">|</span> <span class="n">short</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="mi">2</span> <span class="o">|</span>    <span class="mi">178</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">3</span> <span class="o">|</span>    <span class="mi">121</span> <span class="o">|</span> <span class="n">short</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="mi">4</span> <span class="o">|</span>    <span class="mi">157</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+--------+--------+</span>
 </pre></div>
 
 
@@ -208,11 +208,11 @@ it's application for categorical columns as well.</p>
 
 
 <p>Output:</p>
-<div class="highlight"><pre><span></span>count         20
-unique         3
-top       medium
-freq           9
-Name: group, dtype: object
+<div class="highlight"><pre><span></span><span class="k">count</span>         <span class="mi">20</span>
+<span class="k">unique</span>         <span class="mi">3</span>
+<span class="n">top</span>       <span class="n">medium</span>
+<span class="n">freq</span>           <span class="mi">9</span>
+<span class="n">Name</span><span class="p">:</span> <span class="k">group</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="k">object</span>
 </pre></div>
 
 
@@ -231,15 +231,15 @@ than short and medium! </p>
 
 
 <p>Output:</p>
-<div class="highlight"><pre><span></span>+----+--------+--------+
-|    | height | group  |
-+----+--------+--------+
-| 17 |    196 | tall   |
-|  8 |    195 | tall   |
-|  9 |    194 | tall   |
-|  5 |    190 | tall   |
-|  0 |    178 | medium |
-+----+--------+--------+
+<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">----+--------+--------+</span>
+<span class="o">|</span>    <span class="o">|</span> <span class="n">height</span> <span class="o">|</span> <span class="k">group</span>  <span class="o">|</span>
+<span class="o">+</span><span class="c1">----+--------+--------+</span>
+<span class="o">|</span> <span class="mi">17</span> <span class="o">|</span>    <span class="mi">196</span> <span class="o">|</span> <span class="n">tall</span>   <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">8</span> <span class="o">|</span>    <span class="mi">195</span> <span class="o">|</span> <span class="n">tall</span>   <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">9</span> <span class="o">|</span>    <span class="mi">194</span> <span class="o">|</span> <span class="n">tall</span>   <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">5</span> <span class="o">|</span>    <span class="mi">190</span> <span class="o">|</span> <span class="n">tall</span>   <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">0</span> <span class="o">|</span>    <span class="mi">178</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">----+--------+--------+</span>
 </pre></div>
 
 
@@ -249,7 +249,7 @@ than short and medium! </p>
 
 
 <p>Output:</p>
-<div class="highlight"><pre><span></span>(&#39;short&#39;, &#39;tall&#39;)
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">&#39;short&#39;</span><span class="p">,</span> <span class="s1">&#39;tall&#39;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -262,15 +262,15 @@ than short and medium! </p>
 
 
 <p>Output: </p>
-<div class="highlight"><pre><span></span>+---+--------+--------+----------+-------------------+
-|   | height | group  | is_short | taller_than_short |
-+---+--------+--------+----------+-------------------+
-| 0 |    113 | short  | True     | False             |
-| 1 |    152 | medium | False    | True              |
-| 2 |    177 | medium | False    | True              |
-| 3 |    163 | medium | False    | True              |
-| 4 |    179 | medium | False    | True              |
-+---+--------+--------+----------+-------------------+
+<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">---+--------+--------+----------+-------------------+</span>
+<span class="o">|</span>   <span class="o">|</span> <span class="n">height</span> <span class="o">|</span> <span class="k">group</span>  <span class="o">|</span> <span class="n">is_short</span> <span class="o">|</span> <span class="n">taller_than_short</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+--------+--------+----------+-------------------+</span>
+<span class="o">|</span> <span class="mi">0</span> <span class="o">|</span>    <span class="mi">113</span> <span class="o">|</span> <span class="n">short</span>  <span class="o">|</span> <span class="k">True</span>     <span class="o">|</span> <span class="k">False</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="mi">1</span> <span class="o">|</span>    <span class="mi">152</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span> <span class="k">False</span>    <span class="o">|</span> <span class="k">True</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="mi">2</span> <span class="o">|</span>    <span class="mi">177</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span> <span class="k">False</span>    <span class="o">|</span> <span class="k">True</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="mi">3</span> <span class="o">|</span>    <span class="mi">163</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span> <span class="k">False</span>    <span class="o">|</span> <span class="k">True</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="mi">4</span> <span class="o">|</span>    <span class="mi">179</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span> <span class="k">False</span>    <span class="o">|</span> <span class="k">True</span>              <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+--------+--------+----------+-------------------+</span>
 </pre></div>
 
 

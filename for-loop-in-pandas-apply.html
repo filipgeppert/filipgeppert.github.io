@@ -159,17 +159,17 @@ However, what if we wanted to assign a particular value only for a given conditi
 <p>It's still possible. So one would say that why should we care about .apply() if we can do everything using for loops? Let's see how long does it take to execute each of those cells.
 To do that, we will use pre-generated dataset with daily prices of real estates.
 DataFrame contains 3 columns: date, price per day, and price per night. Source code and input dataset can be downloaded <a href="https://github.com/filipgeppert/pandas_apply">here</a>.</p>
-<div class="highlight"><pre><span></span>df.head()
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
 
-+---+------------+-----------+-------------+
-|   |    date    | price_day | price_night |
-+---+------------+-----------+-------------+
-| 0 | 2018-11-06 |      60.0 |        54.0 |
-| 1 | 2018-11-05 |      60.0 |        54.0 |
-| 2 | 2018-11-04 |      60.0 |        54.0 |
-| 3 | 2018-11-03 |      60.0 |        54.0 |
-| 4 | 2018-11-02 |      65.0 |        58.5 |
-+---+------------+-----------+-------------+
+<span class="o">+</span><span class="c1">---+------------+-----------+-------------+</span>
+<span class="o">|</span>   <span class="o">|</span>    <span class="nb">date</span>    <span class="o">|</span> <span class="n">price_day</span> <span class="o">|</span> <span class="n">price_night</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+------------+-----------+-------------+</span>
+<span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">2018</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">06</span> <span class="o">|</span>      <span class="mi">60</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span>        <span class="mi">54</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="mi">2018</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">05</span> <span class="o">|</span>      <span class="mi">60</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span>        <span class="mi">54</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">2</span> <span class="o">|</span> <span class="mi">2018</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">04</span> <span class="o">|</span>      <span class="mi">60</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span>        <span class="mi">54</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">3</span> <span class="o">|</span> <span class="mi">2018</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">03</span> <span class="o">|</span>      <span class="mi">60</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span>        <span class="mi">54</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">4</span> <span class="o">|</span> <span class="mi">2018</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">02</span> <span class="o">|</span>      <span class="mi">65</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span>        <span class="mi">58</span><span class="p">.</span><span class="mi">5</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+------------+-----------+-------------+</span>
 </pre></div>
 
 

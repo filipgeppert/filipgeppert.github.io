@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
+
+
+
+
+    <link rel="shortcut icon" href="theme/img/icon.ico" type="image/x-icon">
+    <link rel="icon" href="theme/img/icon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-138257111-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="Filip Geppert" />
+<meta name="description" content="What has changed in Pandas over the last year -&gt; summary of release notes." />
+<meta name="keywords" content="Python, Data, Pandas">
+
+<meta property="og:site_name" content="Filip Geppert - python & data developer"/>
+<meta property="og:title" content="Pandas in 2019 - let&#39;s see what&#39;s new!"/>
+<meta property="og:description" content="What has changed in Pandas over the last year -&gt; summary of release notes."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="/pandas-2019-whats-new.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-05-05 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="/author/filip-geppert.html">
+<meta property="article:section" content="Data Science"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Data"/>
+<meta property="article:tag" content="Pandas"/>
+<meta property="og:image" content="https://s3.amazonaws.com/filipgeppert-blog-materials/img/8.jpg">
+
+  <title>Filip Geppert - python & data developer &ndash; Pandas in 2019 - let&#39;s see what&#39;s new!</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="">
+        <img src="/theme/img/profile.png" alt="" title="">
+      </a>
+      <h1><a href=""></a></h1>
+
+<h3>Python & Data developer</h3><p>My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision.</p>      <form class="row gap-y" action="https://formspree.io/filip.geppert@gmail.com"
+            method="POST">
+              <input
+                      class=""
+                      type="text"
+                      name="_replyto"
+                      placeholder="Newsletter signup"
+                      id="email">
+          <button class="btn" type="submit" value="Send">
+            Sign up!
+          </button>
+      </form>
+      <nav>
+        <ul class="list">
+
+          <li><a href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">cv</a></li>
+          <li><a href="https://buildondata.com" target="_blank">Want to hire python specialists?</a></li>
+          <li><a href="https://www.amazon.com/dp/B07P6Y9WQT" target="_blank">Try my e-Book on data science!</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+          <li>
+            <a  class="sc-twitter" href="https://twitter.com/filipgepper" target="_blank">
+            <i class="fab fa-twitter">
+            </i>
+          </a></li>
+          <li>
+            <a  class="sc-github" href="https://github.com/filipgeppert" target="_blank">
+            <i class="fab fa-github">
+            </i>
+          </a></li>
+          <li>
+            <a  class="sc-linkedin" href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">
+            <i class="fab fa-linkedin">
+            </i>
+          </a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="/index.html">Home</a>
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+
+
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="pandas-2019-whats-new">Pandas in 2019 - let's see what's new!</h1>
+    <p>
+      Posted on nie 05 maja 2019 in <a href="/category/data-science.html">Data Science</a>
+
+    </p>
+  </header>
+
+
+  <div>
+      <img src="https://s3.amazonaws.com/filipgeppert-blog-materials/img/8.jpg" alt="" style="width: 100%;">
+
+    <p>In case you forgot to read release notes for Pandas 0.24 &amp; 0.25 version, then don't worry. 
+Below I summarized new functionalities that will make your coding process faster, easier and more effective. All thank's to Pandas
+open source community that is constantly improving the package!  </p>
+<p>Particularly, we are going to see the following examples:</p>
+<ul>
+<li><code>Int64</code> type in Pandas</li>
+<li>Named aggregations</li>
+<li>pandas <code>.explode</code> method</li>
+<li>JSON normalization</li>
+<li>how <code>.rename</code> can raise <code>KeyError</code></li>
+<li>Using your favourite plotting backend directly in Pandas</li>
+</ul>
+<hr>
+<h2>How <code>int</code> can live with <code>None</code></h2>
+<div class="highlight"><pre><span></span><span class="n">cities</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;continent&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Europe&#39;</span><span class="p">,</span> <span class="s1">&#39;Europe&#39;</span><span class="p">,</span> <span class="s1">&#39;Europe&#39;</span><span class="p">,</span> <span class="s1">&#39;North America&#39;</span><span class="p">,</span> <span class="s1">&#39;North America&#39;</span><span class="p">],</span>
+                       <span class="s1">&#39;cities&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;barcelona&#39;</span><span class="p">,</span> <span class="s1">&#39;warsaw&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;montreal&#39;</span><span class="p">,</span> <span class="s1">&#39;toronto&#39;</span><span class="p">],</span>
+                       <span class="s1">&#39;residents&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1620000</span><span class="p">,</span> <span class="mi">1777000</span><span class="p">,</span> <span class="mi">2140000</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">2731000</span><span class="p">],</span>
+                       <span class="s1">&#39;area&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">101</span><span class="p">,</span> <span class="mi">517</span><span class="p">,</span> <span class="mi">105</span> <span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">630</span><span class="p">]</span>
+                      <span class="p">})</span>
+<span class="n">cities</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">---+---------------+-----------+-----------+-------+</span>
+<span class="o">|</span>   <span class="o">|</span>   <span class="n">continent</span>   <span class="o">|</span>  <span class="n">cities</span>   <span class="o">|</span> <span class="n">residents</span> <span class="o">|</span> <span class="n">area</span>  <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+---------------+-----------+-----------+-------+</span>
+<span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">Europe</span>        <span class="o">|</span> <span class="n">barcelona</span> <span class="o">|</span> <span class="mi">1620000</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span> <span class="mi">101</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="n">Europe</span>        <span class="o">|</span> <span class="n">warsaw</span>    <span class="o">|</span> <span class="mi">1777000</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span> <span class="mi">517</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">2</span> <span class="o">|</span> <span class="n">Europe</span>        <span class="o">|</span> <span class="n">paris</span>     <span class="o">|</span> <span class="mi">2140000</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span> <span class="mi">105</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">3</span> <span class="o">|</span> <span class="n">North</span> <span class="n">America</span> <span class="o">|</span> <span class="n">montreal</span>  <span class="o">|</span> <span class="n">NaN</span>       <span class="o">|</span> <span class="n">NaN</span>   <span class="o">|</span>
+<span class="o">|</span> <span class="mi">4</span> <span class="o">|</span> <span class="n">North</span> <span class="n">America</span> <span class="o">|</span> <span class="n">toronto</span>   <span class="o">|</span> <span class="mi">2731000</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span> <span class="mi">630</span><span class="p">.</span><span class="mi">0</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+---------------+-----------+-----------+-------+</span>
+</pre></div>
+
+
+<p>As we can see, residents and area columns are float type even though we passed <code>int</code> types as input.
+That's because fourth row contains <code>NaNs</code>. Luckily, now we can change it with the use of <code>Int64</code> data type.</p>
+<div class="highlight"><pre><span></span><span class="n">cities</span><span class="p">[[</span><span class="s1">&#39;residents&#39;</span><span class="p">,</span> <span class="s1">&#39;area&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">cities</span><span class="p">[[</span><span class="s1">&#39;residents&#39;</span><span class="p">,</span> <span class="s1">&#39;area&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;Int64&#39;</span><span class="p">)</span>
+<span class="n">cities</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">---+---------------+-----------+-----------+------+</span>
+<span class="o">|</span>   <span class="o">|</span>   <span class="n">continent</span>   <span class="o">|</span>  <span class="n">cities</span>   <span class="o">|</span> <span class="n">residents</span> <span class="o">|</span> <span class="n">area</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+---------------+-----------+-----------+------+</span>
+<span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">Europe</span>        <span class="o">|</span> <span class="n">barcelona</span> <span class="o">|</span> <span class="mi">1620000</span>   <span class="o">|</span> <span class="mi">101</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="n">Europe</span>        <span class="o">|</span> <span class="n">warsaw</span>    <span class="o">|</span> <span class="mi">1777000</span>   <span class="o">|</span> <span class="mi">517</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="mi">2</span> <span class="o">|</span> <span class="n">Europe</span>        <span class="o">|</span> <span class="n">paris</span>     <span class="o">|</span> <span class="mi">2140000</span>   <span class="o">|</span> <span class="mi">105</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="mi">3</span> <span class="o">|</span> <span class="n">North</span> <span class="n">America</span> <span class="o">|</span> <span class="n">montreal</span>  <span class="o">|</span> <span class="n">NaN</span>       <span class="o">|</span> <span class="n">NaN</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="mi">4</span> <span class="o">|</span> <span class="n">North</span> <span class="n">America</span> <span class="o">|</span> <span class="n">toronto</span>   <span class="o">|</span> <span class="mi">2731000</span>   <span class="o">|</span> <span class="mi">630</span>  <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+---------------+-----------+-----------+------+</span>
+</pre></div>
+
+
+<p>Works like a charm!</p>
+<hr>
+<h2>Named aggregations</h2>
+<p>Named aggregations is what will make your groupby/rename process much faster. Now you can do it in one line:</p>
+<p>This is how you can use it on DataFrame:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Named aggregations on DataFrame</span>
+<span class="n">cities</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;continent&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">avg_habitants</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;residents&#39;</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">),</span>
+    <span class="n">max_area</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;area&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<p>Result:</p>
+<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">---------------+---------------+----------+</span>
+<span class="o">|</span>               <span class="o">|</span> <span class="n">avg_habitants</span> <span class="o">|</span> <span class="n">max_area</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------+---------------+----------+</span>
+<span class="o">|</span> <span class="n">continent</span>     <span class="o">|</span>               <span class="o">|</span>          <span class="o">|</span>
+<span class="o">|</span> <span class="n">Europe</span>        <span class="o">|</span> <span class="mi">1</span><span class="p">.</span><span class="mi">845667</span><span class="n">e</span><span class="o">+</span><span class="mi">06</span>  <span class="o">|</span>      <span class="mi">517</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">North</span> <span class="n">America</span> <span class="o">|</span> <span class="mi">2</span><span class="p">.</span><span class="mi">731000</span><span class="n">e</span><span class="o">+</span><span class="mi">06</span>  <span class="o">|</span>      <span class="mi">630</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------+---------------+----------+</span>
+</pre></div>
+
+
+<p>And on series:</p>
+<div class="highlight"><pre><span></span><span class="c1"># On Series</span>
+<span class="n">cities</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;continent&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">max_area</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">,</span>
+    <span class="n">min_area</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<p>Result:</p>
+<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">---------------+----------+----------+</span>
+<span class="o">|</span>               <span class="o">|</span> <span class="n">max_area</span> <span class="o">|</span> <span class="n">min_area</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------+----------+----------+</span>
+<span class="o">|</span> <span class="n">continent</span>     <span class="o">|</span>          <span class="o">|</span>          <span class="o">|</span>
+<span class="o">|</span> <span class="n">Europe</span>        <span class="o">|</span>      <span class="mi">517</span> <span class="o">|</span>      <span class="mi">101</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">North</span> <span class="n">America</span> <span class="o">|</span>      <span class="mi">630</span> <span class="o">|</span>      <span class="mi">630</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------+----------+----------+</span>
+</pre></div>
+
+
+<hr>
+<h2><code>list</code> to multiple columns</h2>
+<p>Personally, I don't like storing list in DataFrame cells, but let's be honest -&gt; It sometimes happens.
+Now we can use <code>.explode</code> to handle their transformation:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Data column contains a list of two values</span>
+<span class="n">barcelona</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;city&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Barcelona&#39;</span><span class="p">],</span>
+                       <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1620000</span><span class="p">,</span><span class="mi">101</span><span class="p">]]})</span>
+<span class="n">barcelona</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">---+-----------+----------------+</span>
+<span class="o">|</span>   <span class="o">|</span>   <span class="n">city</span>    <span class="o">|</span>      <span class="k">data</span>      <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+-----------+----------------+</span>
+<span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">Barcelona</span> <span class="o">|</span> <span class="p">[</span><span class="mi">1620000</span><span class="p">,</span> <span class="mi">101</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+-----------+----------------+</span>
+</pre></div>
+
+
+<p>Here is how you can transform <code>data</code> column to long format and get rid of list:</p>
+<div class="highlight"><pre><span></span><span class="n">barcelona</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">---+-----------+---------+</span>
+<span class="o">|</span>   <span class="o">|</span>   <span class="n">city</span>    <span class="o">|</span>  <span class="k">data</span>   <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+-----------+---------+</span>
+<span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">Barcelona</span> <span class="o">|</span> <span class="mi">1620000</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">Barcelona</span> <span class="o">|</span>     <span class="mi">101</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+-----------+---------+</span>
+</pre></div>
+
+
+<p>I bet that this is going to help you a lot!</p>
+<hr>
+<h2>JSON as columns</h2>
+<p>We use JSON a lot, it has it's pros and cons, but so far there was no sufficient option in Pandas to read
+nested JSON file such us the following:</p>
+<div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="s1">&#39;City&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Barcelona&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;area&#39;</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span>
+             <span class="s1">&#39;residents&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;2018&#39;</span><span class="p">:</span> <span class="mi">1600000</span><span class="p">,</span> <span class="s1">&#39;2019&#39;</span><span class="p">:</span> <span class="mi">1620000</span><span class="p">}},</span>
+    <span class="s1">&#39;Country&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Spain&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;continent&#39;</span><span class="p">:</span> <span class="s1">&#39;Europe&#39;</span><span class="p">}</span>
+<span class="p">}]</span>
+</pre></div>
+
+
+<p>See that <code>residents</code> attribute is a descendant of <code>City</code> attribute.
+But here comes Pandas with its new <code>json_normalize</code> method!</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pandas.io.json</span> <span class="kn">import</span> <span class="n">json_normalize</span>
+<span class="n">json_normalize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">max_level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">---+-----------+-----------+---------------------+---------------------+--------------+-------------------+</span>
+<span class="o">|</span>   <span class="o">|</span> <span class="n">City</span><span class="p">.</span><span class="n">name</span> <span class="o">|</span> <span class="n">City</span><span class="p">.</span><span class="n">area</span> <span class="o">|</span> <span class="n">City</span><span class="p">.</span><span class="n">residents</span><span class="p">.</span><span class="mi">2018</span> <span class="o">|</span> <span class="n">City</span><span class="p">.</span><span class="n">residents</span><span class="p">.</span><span class="mi">2019</span> <span class="o">|</span> <span class="n">Country</span><span class="p">.</span><span class="n">name</span> <span class="o">|</span> <span class="n">Country</span><span class="p">.</span><span class="n">continent</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+-----------+-----------+---------------------+---------------------+--------------+-------------------+</span>
+<span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">Barcelona</span> <span class="o">|</span>       <span class="mi">101</span> <span class="o">|</span>             <span class="mi">1600000</span> <span class="o">|</span>             <span class="mi">1620000</span> <span class="o">|</span> <span class="n">Spain</span>        <span class="o">|</span> <span class="n">Europe</span>            <span class="o">|</span>
+<span class="o">+</span><span class="c1">---+-----------+-----------+---------------------+---------------------+--------------+-------------------+</span>
+</pre></div>
+
+
+<p>Take a note that <code>max_level</code> parameter describes how many levels of depth we would like to transform to columns.</p>
+<hr>
+<h2><code>.rename</code> raises errors</h2>
+<p>Earlier, all errors were silent. Now this happens if we want to rename column that does not exist and you set
+appropriate flag:</p>
+<div class="highlight"><pre><span></span><span class="n">cities</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;does_not_exist&#39;</span><span class="p">:</span> <span class="s1">&#39;will_raise_an_error&#39;</span><span class="p">},</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;raise&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="ne">KeyError</span><span class="p">:</span> <span class="s2">&quot;[&#39;does_not_exist&#39;] not found in axis&quot;</span>
+</pre></div>
+
+
+<hr>
+<h2>Various plotting backends</h2>
+<p>This is something that I personally have been waiting for a long time. Pandas now allows to use different plotting backends straight from their API.
+To do so, you need to first find your favourite plotting package. Important: this package has to be adjusted to Pandas. So far, I tested
+two plotting packages:
+- Pandas_Bokeh -&gt; <a href="https://github.com/PatrikHlobil/Pandas-Bokeh">Source code and docs</a>
+- Plotly -&gt; unfortunately, I haven't found their Pandas implementation:(</p>
+<p>To use is as a plotting backend (and say goodbye to Matplotlib...), we need to set the following option:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas_bokeh</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;plotting.backend&#39;</span><span class="p">,</span> <span class="s1">&#39;pandas_bokeh&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Now you can use it to create your favourite plots:</p>
+<div class="highlight"><pre><span></span><span class="n">cities</span><span class="o">.</span><span class="n">plot_bokeh</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">&quot;residents&quot;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
+    <span class="n">category</span><span class="o">=</span><span class="s2">&quot;cities&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Cities information&quot;</span><span class="p">,</span>
+    <span class="n">show_figure</span><span class="o">=</span><span class="bp">True</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<p>Voilà!</p>
+<hr>
+<h2>Summary</h2>
+<p>If you want to read the whole release notes, you can find it <a href="https://pandas.pydata.org/pandas-docs/stable/whatsnew/v0.25.0.html">here</a>.
+And remember that you can also contribute to open source by either donating some money or pushing your commits.
+Just go to Pandas (or any other open source package) repo, find your first issue and create your first pull request!:)</p>
+<p>Happy coding!</p>
+  </div>
+
+  <div class="tag-cloud">
+    <p>
+      <a href="/tag/python.html">Python</a>
+      <a href="/tag/data.html">Data</a>
+      <a href="/tag/pandas.html">Pandas</a>
+    </p>
+  </div>
+
+  <div class="center social-share">
+    <p>Like this article? Share it with your friends!</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
+  </div>
+
+  <div class="neighbors">
+    <a class="btn float-left" href="/pandas-extract-text-analysis-regular-expressions.html" title="Dealing with text data using regular expressions. How Pandas can .extract information.">
+      <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+    <a class="btn float-right" href="/open-cv-basics-guide.html" title="Pythonic intro to OpenCV.">
+      Next Post <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'filipgeppert-com';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy;  2019</p>
+<p>Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5cb1aa9b85683c98" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Filip Geppert - python & data developer ",
+  "url" : "",
+  "image": "",
+  "description": "My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision."
+}
+</script>
+
+</body>
+</html>

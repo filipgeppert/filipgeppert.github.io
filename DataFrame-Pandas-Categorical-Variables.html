@@ -8,11 +8,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="" />
 
-  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
 
-  <link rel="stylesheet" type="text/css" href="/theme/pygments/monokai.min.css">
+    <link id="dark-theme-style" rel="stylesheet" type="text/css"
+          media="(prefers-color-scheme: dark)"
+    href="/theme/stylesheet/dark-theme.min.css">
+
+    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: dark)"
+          href="/theme/pygments/monokai.min.css">
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
+          href="/theme/pygments/monokai.min.css">
+
+
   <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
   <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
   <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
@@ -33,83 +44,99 @@
   ga('create', 'UA-138257111-1', 'auto');
   ga('send', 'pageview');
 </script>
-<!-- End Google Analytics -->
+<!-- End Google Analytics -->  
+
+
+ 
 
 <meta name="author" content="Filip Geppert" />
 <meta name="description" content="Guide on Pandas categorical variables. When, how and what for you should use them in your code." />
 <meta name="keywords" content="Python, Data, Pandas">
 
-<meta property="og:site_name" content="Filip Geppert - python & data developer"/>
-<meta property="og:title" content="Can Pandas understand that tall is taller than short? Use of categorical variables."/>
-<meta property="og:description" content="Guide on Pandas categorical variables. When, how and what for you should use them in your code."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="/DataFrame-Pandas-Categorical-Variables.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2019-04-22 00:00:00+02:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="/author/filip-geppert.html">
-<meta property="article:section" content="Data Science"/>
-<meta property="article:tag" content="Python"/>
-<meta property="article:tag" content="Data"/>
-<meta property="article:tag" content="Pandas"/>
-<meta property="og:image" content="https://s3.amazonaws.com/filipgeppert-blog-materials/img/4.jpg">
+
+  <meta property="og:site_name" content="Filip Geppert - python & data developer"/>
+  <meta property="og:title" content="Can Pandas understand that tall is taller than short? Use of categorical variables."/>
+  <meta property="og:description" content="Guide on Pandas categorical variables. When, how and what for you should use them in your code."/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="/DataFrame-Pandas-Categorical-Variables.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2019-04-22 00:00:00+02:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="/author/filip-geppert.html">
+  <meta property="article:section" content="Data Science"/>
+  <meta property="article:tag" content="Python"/>
+  <meta property="article:tag" content="Data"/>
+  <meta property="article:tag" content="Pandas"/>
+  <meta property="og:image" content="/https://s3.amazonaws.com/filipgeppert-blog-materials/img/4.jpg">
 
   <title>Filip Geppert - python & data developer &ndash; Can Pandas understand that tall is taller than short? Use of categorical variables.</title>
 
 </head>
-<body>
+<body >
   <aside>
     <div>
-      <a href="">
+      <a href="/">
         <img src="/theme/img/profile.png" alt="" title="">
       </a>
-      <h1><a href=""></a></h1>
 
-<h3>Python & Data developer</h3><p>My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision.</p>      <form class="row gap-y" action="https://formspree.io/filip.geppert@gmail.com"
+      <h1>
+        <a href="/"></a>
+      </h1>
+
+<p>Python & Data developer</p>
+<p>Sign up to my newsletter and get a free copy of my Ebook on data science.</p>      <form class="row gap-y" action="https://formspree.io/filip.geppert@gmail.com"
             method="POST">
-              <input
-                      class=""
-                      type="text"
-                      name="_replyto"
-                      placeholder="Newsletter signup"
-                      id="email">
-          <button class="btn" type="submit" value="Send">
-            Sign up!
-          </button>
+        <input
+                class=""
+                type="text"
+                name="_replyto"
+                placeholder="Your email"
+                id="email">
+        <button class="btn" type="submit" value="Send">
+          Sign up!
+        </button>
       </form>
+
+
       <nav>
         <ul class="list">
 
-          <li><a href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">cv</a></li>
-          <li><a href="https://buildondata.com" target="_blank">Want to hire python specialists?</a></li>
-          <li><a href="https://www.amazon.com/dp/B07P6Y9WQT" target="_blank">Try my e-Book on data science!</a></li>
+
+
+            <li>
+              <a target="_self" href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" >cv</a>
+            </li>
+            <li>
+              <a target="_self" href="https://buildondata.com" >Want to hire python specialists?</a>
+            </li>
         </ul>
       </nav>
 
       <ul class="social">
           <li>
             <a  class="sc-twitter" href="https://twitter.com/filipgepper" target="_blank">
-            <i class="fab fa-twitter">
-            </i>
-          </a></li>
+              <i class="fab fa-twitter"></i>
+            </a>
+          </li>
           <li>
             <a  class="sc-github" href="https://github.com/filipgeppert" target="_blank">
-            <i class="fab fa-github">
-            </i>
-          </a></li>
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
           <li>
             <a  class="sc-linkedin" href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">
-            <i class="fab fa-linkedin">
-            </i>
-          </a></li>
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
       </ul>
     </div>
-
 
   </aside>
   <main>
 
     <nav>
+      <a href="/">Home</a>
+
       <a href="/index.html">Home</a>
       <a href="/archives.html">Archives</a>
       <a href="/categories.html">Categories</a>
@@ -129,8 +156,6 @@
 
 
   <div>
-      <img src="https://s3.amazonaws.com/filipgeppert-blog-materials/img/4.jpg" alt="" style="width: 100%;">
-
     <hr>
 <h2>Why categorical variables?</h2>
 <p>With the growth of your data science projects, sooner or later you will realize that amount of RAM your computer has,
@@ -157,33 +182,32 @@ we are going to focus on in this post. </p>
 height of a person in centimeters. Sometimes we care only about quick information that this column conveys such as information 
 stating if a person is short, medium or tall. Let's see how we can call this in Pandas with the use of <code>pd.cut()</code> method.
 In order to understand how it works, let's see the following example:</p>
-<div class="highlight"><pre><span></span><span class="c1"># Create dataframe with height column containing height in centimeters</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">20</span><span class="p">)})</span>
+<div class="highlight"><pre><span></span><code>::<span class="n">python</span>
+<span class="c1"># Create dataframe with height column containing height in centimeters</span>
+<span class="n">df</span> = <span class="n">pd</span>.<span class="n">DataFrame</span>({<span class="s">&#39;height&#39;</span>: <span class="n">np</span>.<span class="n">random</span>.<span class="n">randint</span>(<span class="mi">100</span>, <span class="mi">200</span>, <span class="mi">20</span>)})
 <span class="c1"># Create labels for your bins</span>
-<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">,</span> <span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="s2">&quot;tall&quot;</span><span class="p">]</span>
+<span class="n">labels</span> = [<span class="s">&quot;short&quot;</span>, <span class="s">&quot;medium&quot;</span>, <span class="s">&quot;tall&quot;</span>]
 <span class="c1"># Create ranges for your categtories (bins parameter). Notice that bins need to cover all numerical range included</span>
 <span class="c1"># in x column.</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">99</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+<span class="n">df</span>[<span class="s">&#39;group&#39;</span>] = <span class="n">pd</span>.<span class="n">cut</span>(<span class="nb">x</span>=<span class="n">df</span>.<span class="n">height</span>, <span class="n">bins</span>=[<span class="mi">99</span>, <span class="mi">150</span>, <span class="mi">180</span>, <span class="mi">200</span>], <span class="n">labels</span>=<span class="n">labels</span>)
 <span class="c1"># In this case our bins will be created in the following way:</span>
 <span class="c1"># short -&gt; (99,150]</span>
 <span class="c1"># medium -&gt; (150,180]</span>
 <span class="c1"># tall -&gt; (180, 200]</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
+<span class="n">df</span>.<span class="nb">head</span>()
+</code></pre></div>
 
 <p>Output:</p>
-<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">---+--------+--------+</span>
-<span class="o">|</span>   <span class="o">|</span> <span class="n">height</span> <span class="o">|</span> <span class="k">group</span>  <span class="o">|</span>
-<span class="o">+</span><span class="c1">---+--------+--------+</span>
-<span class="o">|</span> <span class="mi">0</span> <span class="o">|</span>    <span class="mi">178</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span>
-<span class="o">|</span> <span class="mi">1</span> <span class="o">|</span>    <span class="mi">104</span> <span class="o">|</span> <span class="n">short</span>  <span class="o">|</span>
-<span class="o">|</span> <span class="mi">2</span> <span class="o">|</span>    <span class="mi">178</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span>
-<span class="o">|</span> <span class="mi">3</span> <span class="o">|</span>    <span class="mi">121</span> <span class="o">|</span> <span class="n">short</span>  <span class="o">|</span>
-<span class="o">|</span> <span class="mi">4</span> <span class="o">|</span>    <span class="mi">157</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span>
-<span class="o">+</span><span class="c1">---+--------+--------+</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="nb">+---+--------+--------+</span><span class="c"></span>
+<span class="c">|   | height | group  |</span>
+<span class="nb">+---+--------+--------+</span><span class="c"></span>
+<span class="c">| 0 |    178 | medium |</span>
+<span class="c">| 1 |    104 | short  |</span>
+<span class="c">| 2 |    178 | medium |</span>
+<span class="c">| 3 |    121 | short  |</span>
+<span class="c">| 4 |    157 | medium |</span>
+<span class="nb">+---+--------+--------+</span><span class="c"></span>
+</code></pre></div>
 
 <p>A few things to highlight:</p>
 <ul>
@@ -199,22 +223,21 @@ Pandas provides a special object <code>CategoricalDtype</code> to create this ty
 categories as a parameter. Then, we convert a column with the use of <code>.astype()</code> method and pass category object as a
 parameter. Finally, we can use <code>.describe()</code> method which I am sure that you call in case of columns that have numerical values. It has
 it's application for categorical columns as well.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pandas.api.types</span> <span class="kn">import</span> <span class="n">CategoricalDtype</span>
+<div class="highlight"><pre><span></span><code><span class="p">::</span><span class="n">python</span>
+<span class="kn">from</span> <span class="nn">pandas.api.types</span> <span class="kn">import</span> <span class="n">CategoricalDtype</span>
 
-<span class="n">height_order</span> <span class="o">=</span> <span class="n">CategoricalDtype</span><span class="p">(</span><span class="n">categories</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;short&#39;</span><span class="p">,</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="s1">&#39;tall&#39;</span><span class="p">],</span> <span class="n">ordered</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">height_order</span> <span class="o">=</span> <span class="n">CategoricalDtype</span><span class="p">(</span><span class="n">categories</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;short&#39;</span><span class="p">,</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="s1">&#39;tall&#39;</span><span class="p">],</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">group</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">group</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">height_order</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">group</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Output:</p>
-<div class="highlight"><pre><span></span><span class="k">count</span>         <span class="mi">20</span>
-<span class="k">unique</span>         <span class="mi">3</span>
-<span class="n">top</span>       <span class="n">medium</span>
-<span class="n">freq</span>           <span class="mi">9</span>
-<span class="n">Name</span><span class="p">:</span> <span class="k">group</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="k">object</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>count         20
+unique         3
+top       medium
+freq           9
+Name: group, dtype: object
+</code></pre></div>
 
 <p>We see that now <code>.describe()</code> describes perfectly our categorical column. It tells how many rows it has, what are the unique 
 categories in column (short, medium and tall), what is the most frequent category (<code>top</code> parameter),
@@ -225,54 +248,51 @@ and how many times it occurs in a column (<code>freq</code> parameter).</p>
 By doing so, we tell Pandas that our category has the following semantics: short &lt; medium &lt; tall. From now on Pandas knows that tall is taller 
 than short and medium! </p>
 <p>This comes in handy when we want to sort a DataFrame based on categorical data type.</p>
-<div class="highlight"><pre><span></span><span class="c1"># Using order to sort values</span>
-<span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>::python
+# Using order to sort values
+df.sort_values(by=[&#39;height&#39;], ascending=False).head()
+</code></pre></div>
 
 <p>Output:</p>
-<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">----+--------+--------+</span>
-<span class="o">|</span>    <span class="o">|</span> <span class="n">height</span> <span class="o">|</span> <span class="k">group</span>  <span class="o">|</span>
-<span class="o">+</span><span class="c1">----+--------+--------+</span>
-<span class="o">|</span> <span class="mi">17</span> <span class="o">|</span>    <span class="mi">196</span> <span class="o">|</span> <span class="n">tall</span>   <span class="o">|</span>
-<span class="o">|</span>  <span class="mi">8</span> <span class="o">|</span>    <span class="mi">195</span> <span class="o">|</span> <span class="n">tall</span>   <span class="o">|</span>
-<span class="o">|</span>  <span class="mi">9</span> <span class="o">|</span>    <span class="mi">194</span> <span class="o">|</span> <span class="n">tall</span>   <span class="o">|</span>
-<span class="o">|</span>  <span class="mi">5</span> <span class="o">|</span>    <span class="mi">190</span> <span class="o">|</span> <span class="n">tall</span>   <span class="o">|</span>
-<span class="o">|</span>  <span class="mi">0</span> <span class="o">|</span>    <span class="mi">178</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span>
-<span class="o">+</span><span class="c1">----+--------+--------+</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="nb">+----+--------+--------+</span><span class="c"></span>
+<span class="c">|    | height | group  |</span>
+<span class="nb">+----+--------+--------+</span><span class="c"></span>
+<span class="c">| 17 |    196 | tall   |</span>
+<span class="c">|  8 |    195 | tall   |</span>
+<span class="c">|  9 |    194 | tall   |</span>
+<span class="c">|  5 |    190 | tall   |</span>
+<span class="c">|  0 |    178 | medium |</span>
+<span class="nb">+----+--------+--------+</span><span class="c"></span>
+</code></pre></div>
 
 <p>Moreover, we can use methods such us <code>.min()</code> and <code>.max()</code> on categorical columns:</p>
-<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">group</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">df</span><span class="o">.</span><span class="n">group</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>::python
+df.group.min(), df.group.max()
+</code></pre></div>
 
 <p>Output:</p>
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">&#39;short&#39;</span><span class="p">,</span> <span class="s1">&#39;tall&#39;</span><span class="p">)</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>(&#39;short&#39;, &#39;tall&#39;)
+</code></pre></div>
 
 <p>Finally, we can also create regular masks for categorical columns. We do that in the following way:</p>
-<div class="highlight"><pre><span></span><span class="c1"># Comparing categorical variables</span>
+<div class="highlight"><pre><span></span><code><span class="p">::</span><span class="n">python</span>
+<span class="c1"># Comparing categorical variables</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">is_short</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">group</span> <span class="o">==</span> <span class="s2">&quot;short&quot;</span><span class="p">)</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">taller_than_short</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">group</span> <span class="o">&gt;</span> <span class="s2">&quot;short&quot;</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Output: </p>
-<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">---+--------+--------+----------+-------------------+</span>
-<span class="o">|</span>   <span class="o">|</span> <span class="n">height</span> <span class="o">|</span> <span class="k">group</span>  <span class="o">|</span> <span class="n">is_short</span> <span class="o">|</span> <span class="n">taller_than_short</span> <span class="o">|</span>
-<span class="o">+</span><span class="c1">---+--------+--------+----------+-------------------+</span>
-<span class="o">|</span> <span class="mi">0</span> <span class="o">|</span>    <span class="mi">113</span> <span class="o">|</span> <span class="n">short</span>  <span class="o">|</span> <span class="k">True</span>     <span class="o">|</span> <span class="k">False</span>             <span class="o">|</span>
-<span class="o">|</span> <span class="mi">1</span> <span class="o">|</span>    <span class="mi">152</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span> <span class="k">False</span>    <span class="o">|</span> <span class="k">True</span>              <span class="o">|</span>
-<span class="o">|</span> <span class="mi">2</span> <span class="o">|</span>    <span class="mi">177</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span> <span class="k">False</span>    <span class="o">|</span> <span class="k">True</span>              <span class="o">|</span>
-<span class="o">|</span> <span class="mi">3</span> <span class="o">|</span>    <span class="mi">163</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span> <span class="k">False</span>    <span class="o">|</span> <span class="k">True</span>              <span class="o">|</span>
-<span class="o">|</span> <span class="mi">4</span> <span class="o">|</span>    <span class="mi">179</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span> <span class="k">False</span>    <span class="o">|</span> <span class="k">True</span>              <span class="o">|</span>
-<span class="o">+</span><span class="c1">---+--------+--------+----------+-------------------+</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="nb">+---+--------+--------+----------+-------------------+</span><span class="c"></span>
+<span class="c">|   | height | group  | is_short | taller_than_short |</span>
+<span class="nb">+---+--------+--------+----------+-------------------+</span><span class="c"></span>
+<span class="c">| 0 |    113 | short  | True     | False             |</span>
+<span class="c">| 1 |    152 | medium | False    | True              |</span>
+<span class="c">| 2 |    177 | medium | False    | True              |</span>
+<span class="c">| 3 |    163 | medium | False    | True              |</span>
+<span class="c">| 4 |    179 | medium | False    | True              |</span>
+<span class="nb">+---+--------+--------+----------+-------------------+</span><span class="c"></span>
+</code></pre></div>
 
 <p>Here important thing to remember is that you must compare a categorical column with a variable that was previously 
 defined in the categories for that column. Any other comparison will result with <code>TypeError</code>.</p>
@@ -286,7 +306,6 @@ Will you use this type in the future?
 Leave a comment below and let's discuss it a little!</strong></p>
 <p>Happy coding!</p>
   </div>
-
   <div class="tag-cloud">
     <p>
       <a href="/tag/python.html">Python</a>
@@ -331,8 +350,18 @@ Leave a comment below and let's discuss it a little!</strong></p>
 </article>
 
     <footer>
-<p>&copy;  2019</p>
-<p>Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
+<p>&copy; 2022 </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+  <span class="footer-separator">|</span>
+  Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
+  <script id="dark-theme-script"
+          src="/theme/dark-theme/dark-theme.min.js"
+          data-enable-auto-detect-theme="True"
+          data-default-theme="light"
+          type="text/javascript">
+  </script>
+</p>    </footer>
   </main>
 
 
@@ -346,7 +375,7 @@ Leave a comment below and let's discuss it a little!</strong></p>
   "name": " Filip Geppert - python & data developer ",
   "url" : "",
   "image": "",
-  "description": "My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision."
+  "description": "My thoughts and tutorials on programming and data engineering. I write about data and web development, machine learning and engineering best practices."
 }
 </script>
 

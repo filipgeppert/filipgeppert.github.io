@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
+
+    <link id="dark-theme-style" rel="stylesheet" type="text/css"
+          media="(prefers-color-scheme: dark)"
+    href="/theme/stylesheet/dark-theme.min.css">
+
+    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: dark)"
+          href="/theme/pygments/monokai.min.css">
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
+          href="/theme/pygments/monokai.min.css">
+
+
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
+
+
+
+
+    <link rel="shortcut icon" href="theme/img/icon.ico" type="image/x-icon">
+    <link rel="icon" href="theme/img/icon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-138257111-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->  
+
+
+ 
+
+<meta name="author" content="Filip Geppert" />
+<meta name="description" content="Deep dive into advanced static typing examples in python." />
+<meta name="keywords" content="Python, Programming">
+
+
+  <meta property="og:site_name" content="Filip Geppert - python & data developer"/>
+  <meta property="og:title" content="Advanced typing structures - how to express your types better and make your code more robust."/>
+  <meta property="og:description" content="Deep dive into advanced static typing examples in python."/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="/mypy-advanced-examples.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2022-02-23 00:00:00+01:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="/author/filip-geppert.html">
+  <meta property="article:section" content="Python"/>
+  <meta property="article:tag" content="Python"/>
+  <meta property="article:tag" content="Programming"/>
+  <meta property="og:image" content="/https://s3.amazonaws.com/filipgeppert-blog-materials/img/6.jpg">
+
+  <title>Filip Geppert - python & data developer &ndash; Advanced typing structures - how to express your types better and make your code more robust.</title>
+
+</head>
+<body >
+  <aside>
+    <div>
+      <a href="/">
+        <img src="/theme/img/profile.png" alt="" title="">
+      </a>
+
+      <h1>
+        <a href="/"></a>
+      </h1>
+
+<p>Python & Data developer</p>
+<p>Sign up to my newsletter and get a free copy of my Ebook on data science.</p>      <form class="row gap-y" action="https://formspree.io/filip.geppert@gmail.com"
+            method="POST">
+        <input
+                class=""
+                type="text"
+                name="_replyto"
+                placeholder="Your email"
+                id="email">
+        <button class="btn" type="submit" value="Send">
+          Sign up!
+        </button>
+      </form>
+
+
+      <nav>
+        <ul class="list">
+
+
+
+            <li>
+              <a target="_self" href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" >cv</a>
+            </li>
+            <li>
+              <a target="_self" href="https://buildondata.com" >Want to hire python specialists?</a>
+            </li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+          <li>
+            <a  class="sc-twitter" href="https://twitter.com/filipgepper" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-github" href="https://github.com/filipgeppert" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-linkedin" href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
+      </ul>
+    </div>
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="/">Home</a>
+
+      <a href="/index.html">Home</a>
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+
+
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="mypy-advanced-examples">Advanced typing structures - how to express your types better and make your code more robust.</h1>
+    <p>
+      Posted on śro 23 lutego 2022 in <a href="/category/python.html">Python</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <hr>
+<h1>Contents</h1>
+<p>Static typing has gone through a rough way in Python community. Finally, it's becoming a production standard as typed
+code lets you catch bugs faster. Moreover, I bet that anyone who started using it and was tasked to refactor
+the code months later, can clearly see its huge benefits. </p>
+<p>In this post, we're going to focus on advanced structures offered by Python <code>typing</code> module.
+These structures help you better express your typing intents.</p>
+<p>Here's a list of topic we'll cover in this post:</p>
+<ul>
+<li><a href="#Generics">Generics</a></li>
+<li><a href="#Protocols">Protocols</a></li>
+<li><a href="#Callable">Decorators - Callable type</a></li>
+<li><a href="#Overload">Function overload</a></li>
+<li><a href="#Stub files">Stub files</a></li>
+</ul>
+<h1>Generics</h1>
+<p>Let's imagine a following scenario:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="n">seq</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+
+<p>First of all, try to avoid using <code>Any</code> in your codebase. According to <code>mypy</code> docs:</p>
+<blockquote>
+<p>A static type checker will treat every type as being compatible with Any and Any as being compatible with every type.</p>
+</blockquote>
+<p>In the long run, this will obviously result in bugs hiding in your code. In simple terms, <code>Any</code> disables type checker. 
+To solve this problem, you can use generics.
+The code would look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="n">seq</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">first_item</span> <span class="o">=</span> <span class="n">first</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+</code></pre></div>
+
+<p><code>mypy</code> now knows that <code>first_item</code> has type <code>int</code> and will use this information for further type checking. That's the 
+power of generics. They let you preserve information about types. Additionally, you can restrict <code>TypeVar</code> to specific types.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="n">seq</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">first_item</span> <span class="o">=</span> <span class="n">first</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span> <span class="c1"># Ok</span>
+<span class="n">another_first_item</span> <span class="o">=</span> <span class="n">first</span><span class="p">([</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;3&quot;</span><span class="p">])</span> <span class="c1"># Throws an error!</span>
+</code></pre></div>
+
+<p>If you need to be less restrictive, you can use <code>T = TypeVar('T', bound=float)</code> to allow all subtypes for a specified type.</p>
+<p>Finally, generics help you solve a common problem that you'll eventually see in any large codebase. 
+Imagine that an intention of a developer is to create a function that adds two numbers of the same type, but supports
+additions for <code>int</code> and <code>float</code>. Here's an implementation using basic types:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">first</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">second</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="n">first</span> <span class="o">+</span> <span class="n">second</span>
+
+<span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">)</span> <span class="c1"># Shouldn&#39;t be allowed, yet mypy doesn&#39;t complain</span>
+</code></pre></div>
+
+<p>Unfortunately, with this type annotations, nothing blocks a client from calling <code>add(1, 2.1)</code>. Mypy is not able to catch
+the following error and add function becomes unstable in terms of type that is returned. Here's how you can fix this using
+generics:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">first</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">second</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">first</span> <span class="o">+</span> <span class="n">second</span>
+
+<span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">)</span> <span class="c1"># mypy throws an error!</span>
+</code></pre></div>
+
+<p>This implementation clearly shows the intention of a developer. Now, only numbers of the same type can be added.</p>
+<h1>Protocols</h1>
+<p>We all have gone down the road of writing code where objects are inheriting multiple times (or worse, we're asked to take over a codebase that does it).
+This becomes a problem when we start typing our code as mypy errors start to scream. <code>Protocol</code> is a great solution to add type annotation for methods
+that really matter to you. Here's an example:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
+
+<span class="k">class</span> <span class="nc">MyProtocol</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="k">def</span> <span class="nf">set_a</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">get_a</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">some_function_gazylion_modules_away</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">MyProtocol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">obj</span><span class="o">.</span><span class="n">set_a</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_a</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Now, any time <code>some_function_gazylion_modules_away</code> is used, it expects an object that has <code>a</code> attribute and two methods with an exact same type signature.
+It doesn't matter if object that is passed implements some additional methods.
+Only characteristics specified in <code>Protocol</code> definition are important for a type checker.</p>
+<p>Additionally, <code>Protocol</code> can be checked at runtime when you decorate it with <code>runtime_checkable</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">runtime_checkable</span>
+
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span> <span class="nc">MyProtocol</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="k">def</span> <span class="nf">set_a</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">get_a</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
+</code></pre></div>
+
+<h1>Callable</h1>
+<p>Mypy offers <code>Callable</code> type. For an object to be a valid <code>Callable</code>, it must implement the <code>__call__</code> method.
+<code>Callable</code> has the following syntax:</p>
+<p><code>Callable[[&lt;list of input argument types&gt;], &lt;return type&gt;]</code></p>
+<p>Here's how you can use it to type check your decorators:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span><span class="p">,</span> <span class="n">sleep</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+
+<span class="k">def</span> <span class="nf">time_it</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">func</span><span class="p">()</span>
+        <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;This function took </span><span class="si">{</span><span class="n">duration</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> seconds.&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+<span class="nd">@time_it</span>
+<span class="k">def</span> <span class="nf">computation</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">10</span>
+
+<span class="n">computation</span><span class="p">()</span>
+</code></pre></div>
+
+<h1>Overload</h1>
+<p>Sometimes using <code>Union</code> is not enough to express properly a behaviour of a function.
+A common use case could be a file reading function like this:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">BinaryIO</span><span class="p">,</span> <span class="n">TextIO</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">TextIO</span><span class="p">,</span> <span class="n">BinaryIO</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">]:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">data</span>
+</code></pre></div>
+
+<p>Type annotations do not express what is exactly returned when either <code>TextIO</code> or <code>BinaryIO</code> is passed.
+We already mentioned that using generics is one solution for this problem, but there's another one that you might like more.
+You can fix this by adding <code>overload</code> decorators:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">BinaryIO</span><span class="p">,</span> <span class="n">TextIO</span><span class="p">,</span> <span class="n">overload</span>
+
+<span class="nd">@overload</span>
+<span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="n">TextIO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
+<span class="nd">@overload</span>
+<span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span> <span class="o">...</span>
+</code></pre></div>
+
+<p>Now <code>mypy</code> knows exactly what are return types in case of a particular input.
+In my experience, adding <code>overload</code> annotations can quickly add a lot of repeated code to your production files. 
+Consequently, this reduces readability. To fix this, you could start using <code>Stub files</code>.</p>
+<h1>Stub files</h1>
+<p>Often, we face projects that were developed before <code>mypy</code> was popular. Adding types gradually is the best way
+to make a project more robust, but let's face a truth - sometimes we just don't have time for it.</p>
+<p>Luckily, <code>mypy</code> offers a "workaround" that allows us to type project without modifying the original source code, and
+it's called <code>Stub files</code>. Let's imagine having a production code (or a third party library) you can't touch:</p>
+<div class="highlight"><pre><span></span><code><span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">def</span> <span class="nf">some_function</span><span class="p">(</span><span class="n">untyped_kwarg</span><span class="p">):</span>
+    <span class="k">return</span> 
+</code></pre></div>
+
+<p>You can create a stub file by adding <code>*.pyi</code> file in your project. </p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+<span class="n">cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">some_function</span><span class="p">(</span><span class="n">untyped_kwarg</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span> <span class="o">...</span>
+</code></pre></div>
+
+<p>Note: The <code>.pyi</code> file takes precedence if a directory contains both a <code>.py</code> and a <code>.pyi</code> file.</p>
+<h1>Summary</h1>
+<p>Static type hints require a lot of effort and have a steep learning curve, but can eventually save you tons of time.<br>
+Hopefully, structures presented in this post can add new superpowers to your Python stack!</p>
+<p>Happy coding!</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="/tag/python.html">Python</a>
+      <a href="/tag/programming.html">Programming</a>
+    </p>
+  </div>
+
+  <div class="center social-share">
+    <p>Like this article? Share it with your friends!</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
+  </div>
+
+  <div class="neighbors">
+    <a class="btn float-left" href="/pydata-warsaw-talk.html" title="How to prepare your first content-based talk">
+      <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+  </div>
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'filipgeppert-com';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy; 2022 </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+  <span class="footer-separator">|</span>
+  Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
+  <script id="dark-theme-script"
+          src="/theme/dark-theme/dark-theme.min.js"
+          data-enable-auto-detect-theme="True"
+          data-default-theme="light"
+          type="text/javascript">
+  </script>
+</p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5cb1aa9b85683c98" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Filip Geppert - python & data developer ",
+  "url" : "",
+  "image": "",
+  "description": "My thoughts and tutorials on programming and data engineering. I write about data and web development, machine learning and engineering best practices."
+}
+</script>
+
+</body>
+</html>

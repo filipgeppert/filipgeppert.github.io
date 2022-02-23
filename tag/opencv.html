@@ -8,11 +8,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="" />
 
-  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
 
-  <link rel="stylesheet" type="text/css" href="/theme/pygments/monokai.min.css">
+    <link id="dark-theme-style" rel="stylesheet" type="text/css"
+          media="(prefers-color-scheme: dark)"
+    href="/theme/stylesheet/dark-theme.min.css">
+
+    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: dark)"
+          href="/theme/pygments/monokai.min.css">
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
+          href="/theme/pygments/monokai.min.css">
+
+
   <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
   <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
   <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
@@ -33,73 +44,88 @@
   ga('create', 'UA-138257111-1', 'auto');
   ga('send', 'pageview');
 </script>
-<!-- End Google Analytics -->
+<!-- End Google Analytics -->  
+
+
+ 
 
     <meta name="author" content="Filip Geppert" />
-    <meta name="description" content="My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision." />
-<meta property="og:site_name" content="Filip Geppert - python & data developer"/>
-<meta property="og:type" content="blog"/>
-<meta property="og:title" content="Filip Geppert - python & data developer"/>
-<meta property="og:description" content="My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content=""/>
+    <meta name="description" content="My thoughts and tutorials on programming and data engineering. I write about data and web development, machine learning and engineering best practices." />
+  <meta property="og:site_name" content="Filip Geppert - python & data developer"/>
+  <meta property="og:type" content="blog"/>
+  <meta property="og:title" content="Filip Geppert - python & data developer"/>
+  <meta property="og:description" content="My thoughts and tutorials on programming and data engineering. I write about data and web development, machine learning and engineering best practices."/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content=""/>
 
   <title>Filip Geppert - python & data developer &ndash; Tag OpenCV</title>
 
 </head>
-<body>
+<body >
   <aside>
     <div>
-      <a href="">
+      <a href="/">
         <img src="/theme/img/profile.png" alt="" title="">
       </a>
-      <h1><a href=""></a></h1>
 
-<h3>Python & Data developer</h3><p>My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision.</p>      <form class="row gap-y" action="https://formspree.io/filip.geppert@gmail.com"
+      <h1>
+        <a href="/"></a>
+      </h1>
+
+<p>Python & Data developer</p>
+<p>Sign up to my newsletter and get a free copy of my Ebook on data science.</p>      <form class="row gap-y" action="https://formspree.io/filip.geppert@gmail.com"
             method="POST">
-              <input
-                      class=""
-                      type="text"
-                      name="_replyto"
-                      placeholder="Newsletter signup"
-                      id="email">
-          <button class="btn" type="submit" value="Send">
-            Sign up!
-          </button>
+        <input
+                class=""
+                type="text"
+                name="_replyto"
+                placeholder="Your email"
+                id="email">
+        <button class="btn" type="submit" value="Send">
+          Sign up!
+        </button>
       </form>
+
+
       <nav>
         <ul class="list">
 
-          <li><a href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">cv</a></li>
-          <li><a href="https://buildondata.com" target="_blank">Want to hire python specialists?</a></li>
-          <li><a href="https://www.amazon.com/dp/B07P6Y9WQT" target="_blank">Try my e-Book on data science!</a></li>
+
+
+            <li>
+              <a target="_self" href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" >cv</a>
+            </li>
+            <li>
+              <a target="_self" href="https://buildondata.com" >Want to hire python specialists?</a>
+            </li>
         </ul>
       </nav>
 
       <ul class="social">
           <li>
             <a  class="sc-twitter" href="https://twitter.com/filipgepper" target="_blank">
-            <i class="fab fa-twitter">
-            </i>
-          </a></li>
+              <i class="fab fa-twitter"></i>
+            </a>
+          </li>
           <li>
             <a  class="sc-github" href="https://github.com/filipgeppert" target="_blank">
-            <i class="fab fa-github">
-            </i>
-          </a></li>
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
           <li>
             <a  class="sc-linkedin" href="https://www.linkedin.com/in/filip-geppert-62a9bba1/" target="_blank">
-            <i class="fab fa-linkedin">
-            </i>
-          </a></li>
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
       </ul>
     </div>
-
 
   </aside>
   <main>
 
     <nav>
+      <a href="/">Home</a>
+
       <a href="/index.html">Home</a>
       <a href="/archives.html">Archives</a>
       <a href="/categories.html">Categories</a>
@@ -120,9 +146,12 @@
     </p>
   </header>
   <div>
-      <p>OpenCV examples showing its crucial functionalities.</p>
+      <div><p>OpenCV examples showing its crucial functionalities.</p></div>
         <br>
-        <a class="btn" href="/open-cv-basics-guide.html#open-cv-basics-guide">Continue reading</a>
+        <a class="btn"
+           href="/open-cv-basics-guide.html#open-cv-basics-guide">
+          Continue reading
+        </a>
   </div>
 </article>
 
@@ -131,10 +160,19 @@
 
 
 
-
     <footer>
-<p>&copy;  2019</p>
-<p>Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
+<p>&copy; 2022 </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+  <span class="footer-separator">|</span>
+  Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
+  <script id="dark-theme-script"
+          src="/theme/dark-theme/dark-theme.min.js"
+          data-enable-auto-detect-theme="True"
+          data-default-theme="light"
+          type="text/javascript">
+  </script>
+</p>    </footer>
   </main>
 
 
@@ -148,7 +186,7 @@
   "name": " Filip Geppert - python & data developer ",
   "url" : "",
   "image": "",
-  "description": "My thoughts and tutorials on programming. I write about data science, web dev,machine learning and computer vision."
+  "description": "My thoughts and tutorials on programming and data engineering. I write about data and web development, machine learning and engineering best practices."
 }
 </script>
 
